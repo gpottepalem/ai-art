@@ -1,0 +1,28 @@
+### GET request to example server
+#GET https://examples.http-client.intellij.net/get
+#    ?generated-in=IntelliJ IDEA
+
+### /chat
+GET {{host}}/chat
+
+### /chat/raw
+GET {{host}}/chat/raw
+
+### /chat/raw/client
+GET {{host}}/chat/raw/client
+
+### /chat/raw/stream
+GET {{host}}/chat/raw/stream
+Accept: text/event-stream
+
+### /chat/stream
+GET {{host}}/chat/stream
+
+### /chat/words/stream with parameter and stream
+GET {{host}}/chat/words/stream
+    ?question='Tell me a fact about Java 13'
+Accept: text/event-stream
+
+### /chat/painting
+GET {{host}}/chat/painting
+
