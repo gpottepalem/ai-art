@@ -24,7 +24,7 @@ import java.util.List;
  * @since v1.0
  */
 @RestController
-@RequestMapping("/master")
+@RequestMapping("/art-master")
 @Slf4j
 public class ArtMasterController {
     private final ArtMasterService artMasterService;
@@ -34,11 +34,11 @@ public class ArtMasterController {
     }
 
     /**
-     * /master
+     * /art-master
      * @apiNote
-     * Ask AI about how to on Art, e.g. Bird Drawing
+     * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http :8080/master about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code> http :8080/art-master media=='WATERCOLOR' type=='Human Face'</code></pre>
      *
      * @param request the HttpServletRequest injected
      * @param artMedia art media
@@ -55,12 +55,35 @@ public class ArtMasterController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
     /**
-     * /master/raw
+     * /art-master/stream
      * @apiNote
-     * Ask AI about how to on Art, e.g. Bird Drawing with raw response, examine tokens etc.
+     * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
+     * You will get the streaming response.
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http :8080/master/raw about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code> http --stream :8080/art-master/stream media=='WATERCOLOR' type=='Human Face'</code></pre>
+     *
+     * @param artMedia art media
+     * @param object the object
+     * @since v1.0
+     */
+    @GetMapping("/stream")
+    public Flux<String> artStreamChatContent(
+            HttpServletRequest request,
+            @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
+            @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
+        log.info(request.getRequestURL().toString());
+        return artMasterService.artStreamChatContent(artMedia, object);
+    }
+
+    /**
+     * /art-master/raw
+     * @apiNote
+     * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
+     * You will get the raw response - good for examining tokens etc.
+     * <br/><b>HTTPie request:</b>
+     * <pre><code> http :8080/art-master/raw about=='Bird' type=='Drawing'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -77,11 +100,12 @@ public class ArtMasterController {
     }
 
     /**
-     * /master/raw/client
+     * /art-master/raw/client
      * @apiNote
-     * Ask AI about how to on Art, e.g. Bird Drawing with streaming raw response, examine tokens etc.
+     * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
+     * You will get the raw response - good for examining tokens etc.
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http :8080/master/raw/stream about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code> http :8080/art-master/raw/stream about=='Bird' type=='Drawing'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -98,11 +122,12 @@ public class ArtMasterController {
     }
 
     /**
-     * /master/raw/stream
+     * /art-master/raw/stream
      * @apiNote
-     * Ask AI about how to on Art, e.g. Bird Drawing with streaming raw response, examine tokens etc.
+     * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
+     * You will get the streaming raw response - good for examining tokens etc.
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http :8080/master/raw/stream about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code> http :8080/art-master/raw/stream about=='Bird' type=='Drawing'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -118,31 +143,12 @@ public class ArtMasterController {
     }
 
     /**
-     * /master/stream
+     * /art-master/words/stream
      * @apiNote
-     * Ask AI about how to on Art, e.g. Bird Drawing with output stream.
+     * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
+     * You will get the streaming response with output stream of words.
      * <br/><b>HTTPie request:</b>
-     * <pre><code>http --stream :8080/master/stream about=='Bird' type=='Drawing'</code></pre>
-     *
-     * @param artMedia art media
-     * @param object the object
-     * @since v1.0
-     */
-    @GetMapping("/stream")
-    public Flux<String> artStreamChatContent(
-            HttpServletRequest request,
-            @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
-            @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
-        log.info(request.getRequestURL().toString());
-        return artMasterService.artStreamChatContent(artMedia, object);
-    }
-
-    /**
-     * /master/words/stream
-     * @apiNote
-     * Ask AI about how to on Art, e.g. Bird Drawing with output stream of words.
-     * <br/><b>HTTPie request:</b>
-     * <pre><code>http --stream :8080/master/stream/words about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code>http --stream :8080/art-master/stream/words about=='Bird' type=='Drawing'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -158,7 +164,7 @@ public class ArtMasterController {
     }
 
     /**
-     * /master/paintings
+     * /art-master/paintings
      * @apiNote
      * Ask AI for an Artist's paintings(entities as JSON array).
      * @param about the about to ask e.g. Give me 5 famous paintings by Picasso.
@@ -173,7 +179,7 @@ public class ArtMasterController {
     }
 
     /**
-     * /master/paintings/stream
+     * /art-master/paintings/stream
      * @apiNote
      * Ask AI for an Artist's stream of paintings(entities as JSON array).
      * @param about the about to ask e.g. Give me 5 famous paintings by Picasso.
