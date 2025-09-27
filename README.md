@@ -21,15 +21,14 @@ Run the following command from the project root dir:
 ```shell
 brew install graphviz
 ```
-. Install IntelliJ IDEA's [PlantUML Integration plugin](https://plugins.jetbrains.com/plugin/7017-plantuml4idea)
-. Run test-case: ModularityTest which generates modulith PlantUML files (.puml) under application's target/spring-modulith-docs directory.
-. When you open any .puml file generated in IntelliJ, the plugin shows it as PlantUML diagram.
+* Install IntelliJ IDEA's [PlantUML Integration plugin](https://plugins.jetbrains.com/plugin/7017-plantuml4idea)
+* Run test-case: ModularityTest which generates modulith PlantUML files (.puml) under application's target/spring-modulith-docs directory.
+* When you open any .puml file generated in IntelliJ, the plugin shows it as PlantUML diagram.
 
 ### [API Docs](https://smart-doc-group.github.io/)
-API documentation is generated using [smart-doc](https://smart-doc-group.github.io/) generated under `src/main/resources/static/doc`  
-Check this link: [http://localhost:63342/aiArt/aiart/static/doc/api.html](http://localhost:63342/aiArt/aiart/static/doc/api.html)
-
-Run the following command to generate APT docs and check API doc under `src/main/resources/static/doc` (path configured in `smart-doc.json`)
+* API documentation is generated using [smart-doc](https://smart-doc-group.github.io/) generated under `src/main/resources/static/doc`  
+* Check this link: [http://localhost:63342/ai-art/static/doc/api.html](http://localhost:63342/ai-art/static/doc/api.html)
+* Run the following Maven command to generate APT docs and check API doc under `src/main/resources/static/doc` (path configured in `smart-doc.json`)
 ```
 ./mvnw smart-doc:html
 ```
@@ -45,36 +44,46 @@ Run the following command to generate APT docs and check API doc under `src/main
 Vector DB
 
 ## API end-points
+* Postman doesn't support streaming.
+* Use either browser, [HTTPie](https://httpie.io/), or [Curl](https://curl.se/) with stream option  
+* Httpie supports [streaming](https://httpie.io/docs/cli/streamed-responses) with `--stream` option
+* Curl supports [streaming](https://curl.se/docs/manpage.html#--no-buffer) with `-N` (or `--no-buffer`) option
 
-### /chat
-[Check Actuator Mappings](http://localhost:8080/actuator/mappings) and look for /chat
-Open a terminal or browse  
-* http :8080/chat (http://localhost:8080/chat)  
-* http :8080/chat/stream (http://localhost:8080/chat/stream)  
-* http :8080/chat/stream/words  (http://localhost:8080/chat/stream/words)  
-* http --stream GET :8080/chat/stream/words query=="Can you name one famous Artist from India?"  
-(http://localhost:8080/chat/stream/words?query=Can%20you%20name%20one%20famous%20Artist%20from%20India%3F)  
+E.g.
+```shell
+# Httpie
+http :8080/art-master/stream           # non-streaming
+http --stream :8080/art-master/stream  # streaming
 
-### /art
+# curl
+ curl http://localhost:8080/art-master                                           # non-streaming
+ curl -N -H "Accept: text/event-stream" http://localhost:8080/art-master/stream  # streaming
+```
+
+### `/art-master` end-point
+[Check Actuator Mappings](http://localhost:8080/actuator/mappings) and look for `/art-master`  
+
+* `/art-master` (default)
+  * HTTPie : `http :8080/art-master`
+  * Curl : `http://localhost:8080/art-master`
+  * Browser : http://localhost:8080/art-master
+* `/art-master/stream` (default)
+  * HTTPie : `http --stream :8080/art-master/stream`
+  * Curl : `curl -N "http://localhost:8080/master/stream"`
+  * Browser : http://localhost:8080/art-master/stream
+* `/art-master/stream` (with request parameters)
+  * HTTPie : `http --stream :8080/art-master/stream media=='WATERCOLOR' object=='Human Face'`
+  * Curl : `curl -N "http://localhost:8080/art-master/stream?media=WATERCOLOR&object=Human%20Face"
+  * Browser : http://localhost:8080/art-master/stream?media=WATERCOLOR&object=Human%20Face
+* `/art-master/words/stream` (default)
+  * HTTPie : `http --stream :8080/art-master/words/stream`
+  * Curl : `curl -N "http://localhost:8080/art-master/words/stream"`
+  * Browser : http://localhost:8080/art-master/words/stream
+  
+### `/art` end-point [TODO]
 * http :8080/art (http://localhost:8080/ai/art)
 * http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
 * http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)
-
-
-## Testing APIs
-* Postman doesn't support streaming.
-* Use either browser, or httpie/curl with stream option  
-Httpie supports with --stream option.  
-e.g.
-```shell
-# Httpie with stream option for streaming end-point
-http :8080/ai/stream           /// non-streaming mode
-http --stream :8080/ai/stream  /// streaming mode
-
-# curl with streaming option for streaming end-point
- curl http://localhost:8080/ai/stream                                    /// non-streaming mode
- curl -N -H "Accept: text/event-stream" http://localhost:8080/ai/stream  /// streaming mode
-```
 
 ## Observability
 

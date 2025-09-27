@@ -62,7 +62,7 @@ public class ArtMasterController {
      * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
      * You will get the streaming response.
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http --stream :8080/art-master/stream media=='WATERCOLOR' type=='Human Face'</code></pre>
+     * <pre><code> http --stream :8080/art-master/stream media=='WATERCOLOR' object=='Human Face'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -83,7 +83,7 @@ public class ArtMasterController {
      * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
      * You will get the raw response - good for examining tokens etc.
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http :8080/art-master/raw about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code> http :8080/art-master/raw media=='WATERCOLOR' object=='Human face'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -105,7 +105,7 @@ public class ArtMasterController {
      * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
      * You will get the raw response - good for examining tokens etc.
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http :8080/art-master/raw/stream about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code> http :8080/art-master/raw/stream media=='WATERCOLOR' object=='Human face'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -127,7 +127,7 @@ public class ArtMasterController {
      * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
      * You will get the streaming raw response - good for examining tokens etc.
      * <br/><b>HTTPie request:</b>
-     * <pre><code> http :8080/art-master/raw/stream about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code> http :8080/art-master/raw/stream media=='WATERCOLOR' object=='Human face'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
@@ -148,7 +148,7 @@ public class ArtMasterController {
      * Ask AI Art Master how learn any kind of Art, e.g. OIL Bird.
      * You will get the streaming response with output stream of words.
      * <br/><b>HTTPie request:</b>
-     * <pre><code>http --stream :8080/art-master/stream/words about=='Bird' type=='Drawing'</code></pre>
+     * <pre><code>http --stream :8080/art-master/stream/words media=='WATERCOLOR' object=='Human face'</code></pre>
      *
      * @param artMedia art media
      * @param object the object
