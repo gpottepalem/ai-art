@@ -33,14 +33,14 @@ brew install graphviz
 ./mvnw smart-doc:html
 ```
 
-## Docker Compose
+## [Docker Compose](https://docs.docker.com/compose/)
 * Check Docker desktop, you will have ai-art docker compose and under that the following containers up and running:
   * ollama
   * llava.
   * pgvector
   * zipkin
 
-## PGVector
+## [PGVector](https://github.com/pgvector/pgvector)
 Vector DB
 
 ## API end-points
@@ -85,7 +85,7 @@ http --stream :8080/art-master/stream  # streaming
 * http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
 * http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)
 
-## Observability
+## [Observability](https://docs.spring.io/spring-ai/reference/observability/index.html)
 
 Actuator Endpoint - [http://localhost:8080/actuator](http://localhost:8080/actuator)  
 Metrics names - [http://localhost:8080/actuator/metrics](http://localhost:8080/actuator/metrics) - Notice gen_ai  
@@ -93,7 +93,7 @@ Metrics names - [http://localhost:8080/actuator/metrics](http://localhost:8080/a
 > There must at least be one client operation performed (one Model request) for the following metrics to be
 > listed in metrics names. 
 
-### Zipkin - Distributed Tracing
+### [Zipkin](https://zipkin.io/) - Distributed Tracing
 * Zipkin is added for a deeper traceability.
 * The Docker Compose file from Spring Initializr starts a Zipkin server at [http://localhost:9411](http://localhost:9411).
 * Make a few API requests and open Zipkin UI to check traces.
