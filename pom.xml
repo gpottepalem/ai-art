@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.giri</groupId>
-	<artifactId>aiart</artifactId>
+	<artifactId>ai-art</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>aiart</name>
 	<description>AiArt - A Spring AI Java Project</description>
