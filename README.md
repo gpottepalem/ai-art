@@ -3,41 +3,17 @@ Lets explore what AI can bring in to my Art World.
 
 Check [Wiki Pages](https://github.com/gpottepalem/ai-art/wiki) for additional details.
 
-# Docker Compose
-
-## PGVector
-Vector DB
-
 ## Running the app
 * Make sure you have Docker running.  
 * Run the application.  
 ```shell
 ./mvnw spring-boot:run
 ```
-* Check Docker desktop, you will have ai-art docker compose and under that the following containers up and running:
-  * ollama
-  * llava.
-  * pgvector
-  * zipkin
 
-## API end-points
-### /chat
-[Check Actuator Mappings](http://localhost:8080/actuator/mappings) and look for /chat
-Open a terminal or browse  
-. http :8080/chat (http://localhost:8080/chat)  
-. http :8080/chat/stream (http://localhost:8080/chat/stream)  
-. http :8080/chat/stream/words  (http://localhost:8080/chat/stream/words)  
-. http --stream GET :8080/chat/stream/words query=="Can you name one famous Artist from India?"  
-(http://localhost:8080/chat/stream/words?query=Can%20you%20name%20one%20famous%20Artist%20from%20India%3F)  
-
-### /art
-. http :8080/art (http://localhost:8080/ai/art)
-. http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
-. http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)  
-
-## Documentation
+# [Maven Commands](./MAVEN.md)
 ### Modularity - [Spring Modulith](https://docs.spring.io/spring-modulith/reference/)
-. Make sure you have `graphviz` installed
+
+* Make sure you have `graphviz` installed
 ```shell
 brew install graphviz
 ```
@@ -54,11 +30,36 @@ Run the following command to generate APT docs and check API doc under `src/main
 ./mvnw smart-doc:html
 ```
 
-# [Maven Commands](./MAVEN.md)
+## Docker Compose
+* Check Docker desktop, you will have ai-art docker compose and under that the following containers up and running:
+  * ollama
+  * llava.
+  * pgvector
+  * zipkin
+
+## PGVector
+Vector DB
+
+## API end-points
+
+### /chat
+[Check Actuator Mappings](http://localhost:8080/actuator/mappings) and look for /chat
+Open a terminal or browse  
+* http :8080/chat (http://localhost:8080/chat)  
+* http :8080/chat/stream (http://localhost:8080/chat/stream)  
+* http :8080/chat/stream/words  (http://localhost:8080/chat/stream/words)  
+* http --stream GET :8080/chat/stream/words query=="Can you name one famous Artist from India?"  
+(http://localhost:8080/chat/stream/words?query=Can%20you%20name%20one%20famous%20Artist%20from%20India%3F)  
+
+### /art
+* http :8080/art (http://localhost:8080/ai/art)
+* http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
+* http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)
+
 
 ## Testing APIs
-- Postman doesn't support streaming.
-- Use either browser, or httpie/curl with stream option  
+* Postman doesn't support streaming.
+* Use either browser, or httpie/curl with stream option  
 Httpie supports with --stream option.  
 e.g.
 ```shell
@@ -96,6 +97,6 @@ management.tracing.sampling.probability=1.0
 Test Note
 ~~~
 
-How many times API is called - [http://localhost:8080/actuator/metrics/gen_ai.client.operation](http://localhost:8080/actuator/metrics/gen_ai.client.operation)  
-Client operation active - [http://localhost:8080/actuator/metrics/gen_ai.client.operation.active](http://localhost:8080/actuator/metrics/gen_ai.client.operation.active)  
-Token Usage - [http://localhost:8080/actuator/metrics/gen_ai.client.token.usage](http://localhost:8080/actuator/metrics/gen_ai.client.token.usage)
+* How many times API is called - [http://localhost:8080/actuator/metrics/gen_ai.client.operation](http://localhost:8080/actuator/metrics/gen_ai.client.operation)
+* Client operation active - [http://localhost:8080/actuator/metrics/gen_ai.client.operation.active](http://localhost:8080/actuator/metrics/gen_ai.client.operation.active)  
+* Token Usage - [http://localhost:8080/actuator/metrics/gen_ai.client.token.usage](http://localhost:8080/actuator/metrics/gen_ai.client.token.usage)
