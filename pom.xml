@@ -11,7 +11,7 @@
 	<groupId>com.giri</groupId>
 	<artifactId>ai-art</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>aiart</name>
+	<name>ai-art</name>
 	<description>AiArt - A Spring AI Java Project</description>
 	<url/>
 	<licenses>
@@ -29,14 +29,20 @@
 	<properties>
 		<java.version>25</java.version>
 <!--		<spring-ai.version>1.0.2</spring-ai.version>-->
-		<spring-ai.version>1.1.0-M1</spring-ai.version>
+		<spring-ai.version>1.1.0-M2</spring-ai.version>
         <spring-modulith.version>1.4.1</spring-modulith.version>
+        <minio.version>8.6.0</minio.version>
 	</properties>
 	<dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.20.0</version>
         </dependency>
         <!-- Traceability -->
         <dependency>
@@ -98,6 +104,12 @@
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-advisors-vector-store</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

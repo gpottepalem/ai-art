@@ -40,6 +40,12 @@ brew install graphviz
   * pgvector
   * zipkin
 
+Once you have containers running, you can check Llava version
+```shell
+http :11434/api/tags
+curl http://localhost:11434/api/tags|jq
+```
+
 ## [PGVector](https://github.com/pgvector/pgvector)
 Vector DB
 

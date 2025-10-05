@@ -1,0 +1,109 @@
+app:
+  name: "@project.name@"
+  version: "@project.version@"
+
+spring:
+  application:
+    name: ai-art
+
+  ai:
+    version: "@spring-ai.version@"
+    model:
+      chat: ollama
+    ollama:
+      # base-url: http://localhost:11434
+      chat:
+        options:
+          # model: bakllava:latest
+          # model: llava:latest
+          # model: gemma3
+          # model: llama3.2:11b
+          model: qwen2.5vl
+          temperature: 0.2
+          # num-thread: 4
+          # keep-alive: 5m
+      init:
+        pull-model-strategy: always
+        timeout: 60s
+        max-retries: 1
+      # default model examples
+      # chat:
+      #   options:
+      #     model: mistral
+      #     model: deepseek-r1:latest
+      #     model: bakllava
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ai-art
+    username: ai-art
+    password: secret
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: always
+
+  docker:
+    compose:
+      lifecycle-management: start_only
+
+  threads:
+    virtual:
+      enabled: true
+
+  mvc:
+    async:
+      request-timeout: 300000
+
+minio:
+  endpoint: http://127.0.0.1:9000
+  accessKey: minioadmin
+  secretKey: minioadminpassword
+  secure: false
+  bucket-name: commons
+  image-size: 10485760   # 10 MB
+  file-size: 1073741824  # 1 GB
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+  # zipkin:
+  #   tracing:
+  #     endpoint: http://localhost:9411/api/v2/spans
+  # ai:
+  #   chat:
+  #     client:
+  #       observations:
+  #         log-prompt: true
+  #     observations:
+  #       log-prompt: true
+  #     client:
+  #       enabled: true
+
+server:
+  shutdown: immediate
+  # shutdown: graceful
+
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          docker:
+            compose: DEBUG
+        modulith: DEBUG
+        ai:
+          chat:
+            client:
+              advisor: DEBUG
+              # advisor.SimpleLoggerAdvisor: DEBUG
