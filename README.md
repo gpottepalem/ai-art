@@ -38,6 +38,7 @@ brew install graphviz
   * ollama
   * llava.
   * pgvector
+  * minio
   * zipkin
 
 Once you have containers running, you can check Llava version

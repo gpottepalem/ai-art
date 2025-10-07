@@ -58,9 +58,9 @@ spring:
       request-timeout: 300000
 
 minio:
-  endpoint: http://127.0.0.1:9000
+  endpoint: "http://127.0.0.1:9000"
   accessKey: minioadmin
-  secretKey: minioadminpassword
+  secretKey: minioadmin
   secure: false
   bucket-name: commons
   image-size: 10485760   # 10 MB
