@@ -42,7 +42,7 @@ public class MinioStorageServiceIntegrationTest {
     ///      * MINIO_ROOT_PASSWORD - sets the root user’s password inside the container
     ///   * Start a MinIO server that stores its files in /data inside the container.
     ///   * Expose it to your test JVM via a dynamically assigned port
-    /// MinIO starts serving on http://localhost:52254
+    /// MinIO starts serving on [Minio](http://localhost:52254)
     ///
     static final GenericContainer<?> minio =
             new GenericContainer<>("minio/minio:latest")
@@ -73,17 +73,19 @@ public class MinioStorageServiceIntegrationTest {
     @Test
     @DisplayName("Should upload and download text from MinIO successfully")
     void upload_and_download_text_should_succeed() throws Exception {
-        // given
+        // given: a text file for upload
         String objectName = "hello.txt";
         String content = "Hello, MinIO Integration Test!";
         ByteArrayInputStream inputStream = new ByteArrayInputStream(content.getBytes());
 
-        // when
+        // when: service uploadFile is called
         minioStorageService.uploadFile(objectName, inputStream, "text/plain");
-        InputStream downloaded = minioStorageService.downloadFile(objectName);
 
-        // then
-        String downloadedContent = new String(downloaded.readAllBytes(), StandardCharsets.UTF_8);
+        // then: verify expected result
+        String downloadedContent;
+        try (InputStream downloaded = minioStorageService.downloadFile(objectName)) {
+            downloadedContent = new String(downloaded.readAllBytes(), StandardCharsets.UTF_8);
+        }
         assertThat(downloadedContent).isEqualTo(content);
     }
 
@@ -94,7 +96,7 @@ public class MinioStorageServiceIntegrationTest {
         String objectName = "/images/london-boris.jpg";
         byte[] originalBytes;
 
-        // when
+        // when: service uploadFile is called
         try (InputStream imageStream = getClass().getResourceAsStream(objectName)) {
             assertThat(imageStream).isNotNull();
             originalBytes = imageStream.readAllBytes();
@@ -102,7 +104,7 @@ public class MinioStorageServiceIntegrationTest {
             minioStorageService.uploadFile(objectName, inputStream, "image/jpg");
         }
 
-        // then: verify
+        // then: verify expected result
         try (InputStream download = minioStorageService.downloadFile(objectName)) {
             byte[] downloadedBytes = download.readAllBytes();
             assertThat(downloadedBytes).hasSameSizeAs(originalBytes);
