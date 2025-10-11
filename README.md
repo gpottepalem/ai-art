@@ -1,29 +1,36 @@
 # ai-art
-Lets explore what AI can bring in to my Art World.
+Lets explore what AI can bring in to an Artist's World.
 
 Check [Wiki Pages](https://github.com/gpottepalem/ai-art/wiki) for additional details.
 
-## Prerequisites
-* Make sure you have [Java 25](https://www.java.com/en/) installed. [SDK-MAN](https://sdkman.io/) is your companion for managing multiple Java
+## Installation
+**Make sure you have**
+ * [Java 25](https://www.java.com/en/) installed. [SDK-MAN](https://sdkman.io/) is your companion for managing multiple Java
   versions.
-* Make sure you have [Docker](https://www.docker.com/) installed and running.
+ * [Docker](https://www.docker.com/) installed and running.
 
-## [Maven Commands](./MAVEN.md)
-
-### Running the app
+## Getting Started
+### [Refererence - Maven Commands](./MAVEN.md)
 Run the following command from the project root dir:
 ```shell
 ./mvnw spring-boot:run
 ```
-### Modularity - [Spring Modulith](https://docs.spring.io/spring-modulith/reference/)
 
-* Make sure you have `graphviz` installed
+## Tech Stack
+### [Spring Boot](https://docs.spring.io/spring-boot/index.html)
+### [Spring AI](https://docs.spring.io/spring-ai/reference/1.1/index.html)
+### [Spring Modulith](https://docs.spring.io/spring-modulith/reference/)
+
+**Make sure you have**
+ * `graphviz` installed
 ```shell
 brew install graphviz
 ```
-* Install IntelliJ IDEA's [PlantUML Integration plugin](https://plugins.jetbrains.com/plugin/7017-plantuml4idea)
-* Run test-case: ModularityTest which generates modulith PlantUML files (.puml) under application's target/spring-modulith-docs directory.
-* When you open any .puml file generated in IntelliJ, the plugin shows it as PlantUML diagram.
+ * Install IntelliJ IDEA's [PlantUML Integration plugin](https://plugins.jetbrains.com/plugin/7017-plantuml4idea)
+ * Run test-case: [ModularityTest](./src/test/java/com/giri/aiart/ModularityTest.java) which generates modulith 
+   PlantUML files (.puml) under application's [./target/spring-modulith-docs](./target/spring-modulith-docs) directory.
+ * When you open any [.puml](./target/spring-modulith-docs/components.puml) file generated in IntelliJ, the plugin shows
+   it as PlantUML diagram.
 
 ### [API Docs](https://smart-doc-group.github.io/)
 * API documentation is generated using [smart-doc](https://smart-doc-group.github.io/) generated under `src/main/resources/static/doc`  
@@ -33,13 +40,13 @@ brew install graphviz
 ./mvnw smart-doc:html
 ```
 
-## [Docker Compose](https://docs.docker.com/compose/)
+### [Docker Compose](https://docs.docker.com/compose/)
 * Check Docker desktop, you will have ai-art docker compose and under that the following containers up and running:
-  * ollama
-  * llava.
-  * pgvector
-  * minio
-  * zipkin
+  * [ollama](https://ollama.com/)
+  * [llava](https://ollama.com/library/llava)
+  * [pgvector](https://github.com/pgvector/pgvector)
+  * [minio](https://www.min.io/)
+  * [zipkin](https://zipkin.io/)
 
 Once you have containers running, you can check Llava version
 ```shell
@@ -47,7 +54,7 @@ http :11434/api/tags
 curl http://localhost:11434/api/tags|jq
 ```
 
-## [PGVector](https://github.com/pgvector/pgvector)
+### [PGVector](https://github.com/pgvector/pgvector)
 Vector DB
 
 ## API end-points
@@ -92,7 +99,7 @@ http --stream :8080/art-master/stream  # streaming
 * http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
 * http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)
 
-## [Observability](https://docs.spring.io/spring-ai/reference/observability/index.html)
+### [Observability](https://docs.spring.io/spring-ai/reference/observability/index.html)
 
 Actuator Endpoint - [http://localhost:8080/actuator](http://localhost:8080/actuator)  
 Metrics names - [http://localhost:8080/actuator/metrics](http://localhost:8080/actuator/metrics) - Notice gen_ai  
