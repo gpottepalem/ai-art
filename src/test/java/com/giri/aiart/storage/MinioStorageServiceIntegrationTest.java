@@ -45,11 +45,11 @@ public class MinioStorageServiceIntegrationTest {
     /// MinIO starts serving on [Minio](http://localhost:52254)
     ///
     static final GenericContainer<?> minio =
-            new GenericContainer<>("minio/minio:latest")
-                    .withExposedPorts(9000)
-                    .withEnv("MINIO_ROOT_USER", "minioadmin")
-                    .withEnv("MINIO_ROOT_PASSWORD", "minioadmin")
-                    .withCommand("server /data");
+        new GenericContainer<>("minio/minio:latest")
+            .withExposedPorts(9000)
+            .withEnv("MINIO_ROOT_USER", "minioadmin")
+            .withEnv("MINIO_ROOT_PASSWORD", "minioadmin")
+            .withCommand("server /data");
 
     @Autowired
     private MinioStorageService minioStorageService;

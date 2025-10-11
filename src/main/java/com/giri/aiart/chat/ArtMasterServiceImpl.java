@@ -2,8 +2,8 @@ package com.giri.aiart.chat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.giri.aiart.domain.Painting;
-import com.giri.aiart.domain.type.ArtMedia;
+import com.giri.aiart.shared.domain.Painting;
+import com.giri.aiart.shared.domain.type.ArtMedia;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.ChatClientResponse;
@@ -47,63 +47,63 @@ public class ArtMasterServiceImpl implements ArtMasterService {
     @Override
     public String artChatContent(ArtMedia artMedia, String object) {
         return chatClient.prompt(generateRecipe(artMedia, object))
-                .advisors(simpleLoggerAdvisor) // log both request and response in DEBUG mode if enabled
-                .call()
-                .content();
+            .advisors(simpleLoggerAdvisor) // log both request and response in DEBUG mode if enabled
+            .call()
+            .content();
     }
 
     @Override
     public ChatResponse artChatResponse(ArtMedia artMedia, String object) {
         return chatClient.prompt(generateRecipe(artMedia, object))
-                .advisors(simpleLoggerAdvisor)
-                .call()
-                .chatResponse();
+            .advisors(simpleLoggerAdvisor)
+            .call()
+            .chatResponse();
     }
 
     @Override
     public ChatClientResponse artChatClientResponse(ArtMedia artMedia, String object) {
         return chatClient.prompt(generateRecipe(artMedia, object))
-                .advisors(simpleLoggerAdvisor)
-                .call()
-                .chatClientResponse();
+            .advisors(simpleLoggerAdvisor)
+            .call()
+            .chatClientResponse();
     }
     @Override
     public Flux<ChatResponse> artStreamChatResponse(ArtMedia artMedia, String object) {
         return chatClient.prompt(generateRecipe(artMedia, object))
-                .advisors(simpleLoggerAdvisor)
-                .stream()
-                .chatResponse();
+            .advisors(simpleLoggerAdvisor)
+            .stream()
+            .chatResponse();
     }
 
     @Override
     public Flux<String> artStreamChatContent(ArtMedia artMedia, String object) {
         return chatClient.prompt()
-                .advisors(simpleLoggerAdvisor)
-                .user(generateRecipe(artMedia, object)) // set user input
-                .stream() // enable streaming
-                .content(); // return only content (no metadata)
+            .advisors(simpleLoggerAdvisor)
+            .user(generateRecipe(artMedia, object)) // set user input
+            .stream() // enable streaming
+            .content(); // return only content (no metadata)
     }
 
     @Override
     public Flux<String> artStreamChatContentWords(ArtMedia artMedia, String object){
         return chatClient.prompt()
-                .advisors(simpleLoggerAdvisor)
-                .user(generateRecipe(artMedia, object))
-                .stream()
-                .chatClientResponse()
-                .mapNotNull(chatResponse -> {
-                    assert chatResponse.chatResponse() != null;
-                    return chatResponse.chatResponse().getResults().getFirst().getOutput().getText();
-                });
+            .advisors(simpleLoggerAdvisor)
+            .user(generateRecipe(artMedia, object))
+            .stream()
+            .chatClientResponse()
+            .mapNotNull(chatResponse -> {
+                assert chatResponse.chatResponse() != null;
+                return chatResponse.chatResponse().getResults().getFirst().getOutput().getText();
+            });
     }
 
     @Override
     public List<Painting> synchronousChatEntity(String object) {
         return chatClient.prompt()
-                .advisors(simpleLoggerAdvisor) // log both request and response in DEBUG mode if enabled
-                .user(object)
-                .call()
-                .entity(new ParameterizedTypeReference<List<Painting>>() {});
+            .advisors(simpleLoggerAdvisor) // log both request and response in DEBUG mode if enabled
+            .user(object)
+            .call()
+            .entity(new ParameterizedTypeReference<List<Painting>>() {});
     }
 
     @Override
@@ -133,21 +133,21 @@ public class ArtMasterServiceImpl implements ArtMasterService {
 
         */
         return chatClient.prompt()
-                .user(object)
-                .stream()
-                .content()
-                .flatMap(chunk -> {
-                    try {
-                        // Only handle list responses
-                        List<Painting> list = objectMapper.readValue(
-                                chunk,
-                                new TypeReference<List<Painting>>() {}
-                        );
-                        return Flux.just(list); // emits one List<Painting> per chunk
-                    } catch (Exception e) {
-                        System.err.println("Failed to parse chunk: " + chunk);
-                        return Flux.empty(); // skip bad chunks
-                    }
-                });
+            .user(object)
+            .stream()
+            .content()
+            .flatMap(chunk -> {
+                try {
+                    // Only handle list responses
+                    List<Painting> list = objectMapper.readValue(
+                        chunk,
+                        new TypeReference<List<Painting>>() {}
+                    );
+                    return Flux.just(list); // emits one List<Painting> per chunk
+                } catch (Exception e) {
+                    System.err.println("Failed to parse chunk: " + chunk);
+                    return Flux.empty(); // skip bad chunks
+                }
+            });
     }
 }

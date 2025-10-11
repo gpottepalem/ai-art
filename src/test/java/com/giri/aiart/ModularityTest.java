@@ -20,7 +20,7 @@ public class ModularityTest {
     @Test
     void create_module_documentation() {
         new Documenter(modules)
-                .writeModulesAsPlantUml()
-                .writeIndividualModulesAsPlantUml();
+            .writeModulesAsPlantUml()
+            .writeIndividualModulesAsPlantUml();
     }
 }

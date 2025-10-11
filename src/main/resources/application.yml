@@ -44,6 +44,10 @@ spring:
   sql:
     init:
       mode: always
+  flyway:
+#    enabled: true
+#    connect-retries: 10
+#    connect-retries-interval: 30s
 
   docker:
     compose:

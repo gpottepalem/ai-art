@@ -5,4 +5,4 @@
 ///     allowedDependencies = "domain::type" // Grants access to the named interface
 /// )```
 @org.springframework.modulith.NamedInterface("type")
-package com.giri.aiart.domain.type;
+package com.giri.aiart.shared.domain.type;

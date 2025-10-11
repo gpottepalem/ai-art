@@ -1,0 +1,56 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+#    url: jdbc:tc:pgvector/pgvector:pg18:///ai-art-test?TC_TMPFS=/testtmpfs:rw
+    # jdbc:tc:postgres:18:///ai-art-test → tells Testcontainers to start a PostgreSQL 18 container
+    # ?TC_IMAGE=pgvector/pgvector:pg18 → overrides the default image to use pgvector
+    # ai-art-test → your database name inside the container
+    url: jdbc:tc:postgresql:18:///ai-art-test?TC_IMAGE=/pgvector:pg18
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    username: ai-art-test
+    password: secret
+    hikari:
+      maximum-pool-size: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
+
+  test:
+    database:
+      replace: none
+
+  flyway:
+    enabled: true  # if using Flyway
+
+logging:
+  level:
+    root: info
+    org.springframework: info
+    # log SQL with binding parameter values
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+    com.zaxxer.hikari.HikariConfig: debug
+    com.zaxxer.hikari: trace
+    # application
+    com.giri.aiart: debug
+
+minio:
+#  endpoint: http://127.0.0.1:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucket-name: test-bucket
+  secure: false

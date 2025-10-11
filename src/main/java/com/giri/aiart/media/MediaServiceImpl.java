@@ -33,9 +33,9 @@ public class MediaServiceImpl implements MediaService {
         Prompt prompt = PromptFactory.createPrompt(promptType, mediaFileName);
 
         return chatClient.prompt(prompt)
-                .advisors(simpleLoggerAdvisor)
-                .stream()
-                .content();
+            .advisors(simpleLoggerAdvisor)
+            .stream()
+            .content();
     }
 
     @Override
@@ -45,13 +45,13 @@ public class MediaServiceImpl implements MediaService {
                 The following is a screenshot containing a quotation.
                 """);
         var userMessage = UserMessage.builder()
-                .text("Extract all the text found in this image.")
-                .media(MediaUtils.toMedia(mediaFileName))
-                .build();
+            .text("Extract all the text found in this image.")
+            .media(MediaUtils.toMedia(mediaFileName))
+            .build();
         var prompt = new Prompt(List.of(systemMessage, userMessage));
         return chatClient.prompt(prompt)
-                .advisors(simpleLoggerAdvisor)
-                .stream()
-                .content();
+            .advisors(simpleLoggerAdvisor)
+            .stream()
+            .content();
     }
 }

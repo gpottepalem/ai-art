@@ -11,8 +11,8 @@ import java.util.Map;
 /// @author Giri Pottepalem
 public interface PromptBuilder {
     Map<String, Object> DEFAULT_PARAMS = Map.of(
-            "maxWords", 8,
-            "style", "expert"
+    "maxWords", 8,
+    "style", "expert"
     );
 
     /// Given a map of parameters, it builds and returns system message

@@ -22,16 +22,16 @@ public class DescriptionPromptBuilder implements PromptBuilder {
                 Be as descriptive as you can in about 3 paras and never exceeding %d words.
                 """, maxWords);
         return SystemMessage.builder()
-                .text(systemPrompt)
-                .build();
+            .text(systemPrompt)
+            .build();
     }
 
     @Override
     public UserMessage buildUserMessage(@NonNull Map<String, Object> parameters, String mediaFilename) {
         return new UserMessage.Builder()
-//                .text("Describe this image.")
-                .text("Write a story describing this image.")
-                .media(MediaUtils.toMedia(mediaFilename))
-                .build();
+//          .text("Describe this image.")
+            .text("Write a story describing this image.")
+            .media(MediaUtils.toMedia(mediaFilename))
+            .build();
     }
 }

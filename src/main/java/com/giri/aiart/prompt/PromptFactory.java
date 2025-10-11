@@ -26,10 +26,10 @@ public class PromptFactory {
                                       Map<String, Object> userParameters) {
         PromptBuilder promptBuilder = buildFor(promptType);
         return new Prompt(
-                List.of(
-                    promptBuilder.buildSystemMessage(systemParameters),
-                    promptBuilder.buildUserMessage(userParameters, mediaFilename)
-                )
+            List.of(
+                promptBuilder.buildSystemMessage(systemParameters),
+                promptBuilder.buildUserMessage(userParameters, mediaFilename)
+            )
         );
     }
 

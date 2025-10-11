@@ -20,15 +20,15 @@ public class CaptionPromptBuilder implements PromptBuilder {
                 The caption must never exceed %d words.
                 """, maxWords);
         return SystemMessage.builder()
-                .text(systemPrompt)
-                .build();
+            .text(systemPrompt)
+            .build();
     }
 
     @Override
     public UserMessage buildUserMessage(Map<String, Object> parameters, String mediaFilename) {
         return new UserMessage.Builder()
-                .text("Generate a caption for this image.")
-                .media(MediaUtils.toMedia(mediaFilename))
-                .build();
+            .text("Generate a caption for this image.")
+            .media(MediaUtils.toMedia(mediaFilename))
+            .build();
     }
 }

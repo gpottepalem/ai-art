@@ -21,11 +21,11 @@ public class MinioStorageServiceUnitTest {
     //  provides maximum test isolation, but it can be slower due to the overhead of starting a new container for every test.
     @Container
     private static final GenericContainer<?> minio =
-            new GenericContainer<>("minio/minio:latest")
-                    .withExposedPorts(9000)
-                    .withEnv("MINIO_ROOT_USER", "minioadmin")
-                    .withEnv("MINIO_ROOT_PASSWORD", "minioadmin")
-                    .withCommand("server /data");
+        new GenericContainer<>("minio/minio:latest")
+            .withExposedPorts(9000)
+            .withEnv("MINIO_ROOT_USER", "minioadmin")
+            .withEnv("MINIO_ROOT_PASSWORD", "minioadmin")
+            .withCommand("server /data");
 
     @Test
     void minio_should_be_running() {

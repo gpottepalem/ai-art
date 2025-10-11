@@ -36,11 +36,11 @@ public class OllamaServiceImpl implements OllamaService {
     /// @param vectorStore
     /// @param ollamaChatModel
     public OllamaServiceImpl(
-            ChatClient.Builder chatClientBuilder,
-            ArtRepository artRepository,
-            VectorStore vectorStore,
-            // McpSyncClient mcpSyncClient,
-            OllamaChatModel ollamaChatModel) {
+        ChatClient.Builder chatClientBuilder,
+        ArtRepository artRepository,
+        VectorStore vectorStore,
+        // McpSyncClient mcpSyncClient,
+        OllamaChatModel ollamaChatModel) {
         var system = """
                 You are an AI powered assistant to help people buy an Art work from the Art agency named Art Palace
                 with locations in Canton, Boston, New York, Tokyo, Singapore, Paris, Mumbai, New Delhi, Hyderabad, and
@@ -50,17 +50,17 @@ public class OllamaServiceImpl implements OllamaService {
 
         var inMemoryChatRepository = new InMemoryChatMemoryRepository();
         var chatMemory = MessageWindowChatMemory
-                .builder()
-                .chatMemoryRepository(inMemoryChatRepository)
-                .build();
+            .builder()
+            .chatMemoryRepository(inMemoryChatRepository)
+            .build();
 
         this.chatClient = chatClientBuilder
-                .defaultSystem(system)
-                .defaultAdvisors(
-                    MessageChatMemoryAdvisor.builder(chatMemory).build(),
-                    new SimpleLoggerAdvisor() // capture and log request and response to and from the LLM
-                )
-                .build();
+            .defaultSystem(system)
+            .defaultAdvisors(
+                MessageChatMemoryAdvisor.builder(chatMemory).build(),
+                new SimpleLoggerAdvisor() // capture and log request and response to and from the LLM
+            )
+            .build();
 
         this.vectorStore = vectorStore;
         this.artRepository = artRepository;
@@ -72,7 +72,7 @@ public class OllamaServiceImpl implements OllamaService {
     public Flux<String> generateTextStream(String message) {
         var prompt = new Prompt(new UserMessage(message));
         return ollamaChatModel.stream(prompt)
-                .mapNotNull(chatResponse -> chatResponse.getResults().getFirst().getOutput().getText());
+            .mapNotNull(chatResponse -> chatResponse.getResults().getFirst().getOutput().getText());
     }
 
     /// LLMs don't output JSON unless you strongly prompt them to do so.
@@ -90,7 +90,7 @@ public class OllamaServiceImpl implements OllamaService {
 
         var prompt = new Prompt(List.of(systemMessage, userMessage));
         return ollamaChatModel.stream(prompt)
-                .mapNotNull(response -> response.getResults().getFirst().getOutput().getText());
+            .mapNotNull(response -> response.getResults().getFirst().getOutput().getText());
 //                .collect(Collectors.joining())
 //                .map(String::trim);
     }
@@ -104,16 +104,16 @@ public class OllamaServiceImpl implements OllamaService {
     public Flux<String> assist(String user, String message) {
         var inMemoryChatRepository = new InMemoryChatMemoryRepository();
         var chatMemory = MessageWindowChatMemory
-                .builder()
-                .chatMemoryRepository(inMemoryChatRepository)
-                .build();
+            .builder()
+            .chatMemoryRepository(inMemoryChatRepository)
+            .build();
         var advisor = PromptChatMemoryAdvisor
-                .builder(chatMemory)
-                .build();
+            .builder(chatMemory)
+            .build();
         var advisorForUser = this.memory.computeIfAbsent(user, key -> advisor);
         var prompt = new Prompt(new UserMessage(message));
 
         return ollamaChatModel.stream(prompt)
-                .mapNotNull(chatResponse -> chatResponse.getResults().getFirst().getOutput().getText());
+            .mapNotNull(chatResponse -> chatResponse.getResults().getFirst().getOutput().getText());
     }
 }

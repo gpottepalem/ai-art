@@ -1,4 +1,4 @@
-package com.giri.aiart.domain.type;
+package com.giri.aiart.shared.domain.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

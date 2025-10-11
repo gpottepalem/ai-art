@@ -37,7 +37,7 @@ This project contains a Docker Compose file named `compose.yaml`.
 In this file, the following services have been defined:
 
 * ollama: [`ollama/ollama:latest`](https://hub.docker.com/r/ollama/ollama)
-* pgvector: [`pgvector/pgvector:pg16`](https://hub.docker.com/r/pgvector/pgvector)
+* pgvector: [`pgvector/pgvector:pg18`](https://hub.docker.com/r/pgvector/pgvector) [Github](https://github.com/pgvector/pgvector)
 
 Please review the tags of the used images and set them to the same as you're running in production.
 

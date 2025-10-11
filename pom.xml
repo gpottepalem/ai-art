@@ -30,10 +30,11 @@
 		<java.version>25</java.version>
 <!--		<spring-ai.version>1.0.2</spring-ai.version>-->
 		<spring-ai.version>1.1.0-M2</spring-ai.version>
-        <spring-modulith.version>1.4.1</spring-modulith.version>
+        <spring-modulith.version>1.4.3</spring-modulith.version>
         <minio.version>8.6.0</minio.version>
         <okhttp.version>4.12.0</okhttp.version>
-        <testcontainers.version>1.21.3</testcontainers.version>
+        <flyway.version>11.13.3</flyway.version>
+<!--        <testcontainers.version>1.21.3</testcontainers.version>-->
 	</properties>
 	<dependencies>
         <dependency>
@@ -118,6 +119,30 @@
             <version>${okhttp.version}</version>
         </dependency>
 
+        <!-- ==== DB ==== -->
+        <!-- Flyway core -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
+
+        <!-- Optional, for Postgres-specific support -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <scope>runtime</scope>
+            <version>${flyway.version}</version>
+        </dependency>
+
+        <!-- The JDBC driver for your database -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- TESTING -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -130,15 +155,18 @@
         </dependency>
         <!-- Testcontainers -->
         <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-testcontainers</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>testcontainers</artifactId>
-            <version>${testcontainers.version}</version>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>test</scope>
         </dependency>
 

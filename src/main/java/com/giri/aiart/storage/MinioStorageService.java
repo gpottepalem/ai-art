@@ -46,12 +46,12 @@ public class MinioStorageService implements StorageService {
             byte[] bytes = inputStream.readAllBytes();
             try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes)) {
                 minioClient.putObject(
-                        PutObjectArgs.builder()
-                                .bucket(bucketName)
-                                .object(objectName)
-                                .stream(byteArrayInputStream, bytes.length, 5 * 1024 * 1024) // part size 5MB
-                                .contentType(contentType)
-                                .build()
+                    PutObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(objectName)
+                        .stream(byteArrayInputStream, bytes.length, 5 * 1024 * 1024) // part size 5MB
+                        .contentType(contentType)
+                        .build()
                 );
             }
 
@@ -63,8 +63,8 @@ public class MinioStorageService implements StorageService {
     @Override
     public InputStream downloadFile(String objectName) throws Exception {
         return minioClient.getObject(GetObjectArgs.builder()
-                .bucket(bucketName)
-                .object(objectName)
-                .build());
+            .bucket(bucketName)
+            .object(objectName)
+            .build());
     }
 }

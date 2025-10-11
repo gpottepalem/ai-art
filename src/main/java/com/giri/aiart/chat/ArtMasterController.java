@@ -1,7 +1,7 @@
 package com.giri.aiart.chat;
 
-import com.giri.aiart.domain.Painting;
-import com.giri.aiart.domain.type.ArtMedia;
+import com.giri.aiart.shared.domain.Painting;
+import com.giri.aiart.shared.domain.type.ArtMedia;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClientResponse;

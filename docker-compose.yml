@@ -30,7 +30,7 @@ services:
   pgvector:
     container_name: pgvector
     # Postgres 16 with pgvector extension pre-installed
-    image: 'pgvector/pgvector:pg16'
+    image: 'pgvector/pgvector:pg18'
     environment:
       - 'POSTGRES_DB=ai-art'             # Database name
       - 'POSTGRES_USER=ai-art'           # DB user
