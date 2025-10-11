@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 /// Integration Smoke Test to ensure that the application starts up.
 /// @author Giri Pottepalem
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        useMainMethod = SpringBootTest.UseMainMethod.ALWAYS
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    useMainMethod = SpringBootTest.UseMainMethod.ALWAYS
 )
 @ExtendWith(OutputCaptureExtension.class)
 class AiArtApplicationIntegrationTest {

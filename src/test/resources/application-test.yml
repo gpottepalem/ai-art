@@ -49,7 +49,7 @@ logging:
     com.giri.aiart: debug
 
 minio:
-#  endpoint: http://127.0.0.1:9000
+  endpoint: http://127.0.0.1:9000
   accessKey: minioadmin
   secretKey: minioadmin
   bucket-name: test-bucket
