@@ -25,6 +25,7 @@ public abstract class BaseEntity implements Serializable {
 
     /// For optimistic locking
     @Version
+    @ToString.Include
     private Long version;
 
     @Override

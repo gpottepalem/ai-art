@@ -2,22 +2,22 @@ package com.giri.aiart.shared.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.modulith.NamedInterface;
 
-import java.util.UUID;
+import java.util.Set;
 
-/// Persistable Artist entity
+/// Persistable entity
 ///
 /// @author Giri Pottepalem
-@NamedInterface
 @Entity
 @Table(name = "artists")
 @Getter @Setter
-@NoArgsConstructor //(access = AccessLevel.PROTECTED)
-@ToString(onlyExplicitlyIncluded = true)
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@ToString(onlyExplicitlyIncluded = true)
 public class Artist extends BaseAuditEntity {
+    private static final long serialVersionUID = 1L;
+
     @Column(nullable = false)
     @ToString.Include
     private String firstName;
@@ -30,4 +30,7 @@ public class Artist extends BaseAuditEntity {
     private String bio;
 
     private String profileImageUrl; // stored in MinIO
+
+    @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Artwork> artworks;
 }
