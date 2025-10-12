@@ -1,5 +1,6 @@
 package com.giri.aiart.chat;
 
+import com.giri.aiart.BaseIntegrationTest;
 import com.giri.aiart.shared.domain.type.ArtMedia;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.client.ChatClientResponse;
@@ -7,7 +8,6 @@ import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import reactor.core.publisher.Flux;
 
@@ -15,8 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@ApplicationModuleTest //(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ChatControllerIntegrationTest {
+/// TODO
+/// @author Giri Pottepalem
+public class ChatControllerIntegrationTest extends BaseIntegrationTest {
     @Autowired
     ArtMasterController artMasterController;
 

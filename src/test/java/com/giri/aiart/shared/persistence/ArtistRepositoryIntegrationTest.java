@@ -3,8 +3,6 @@ package com.giri.aiart.shared.persistence;
 import com.giri.aiart.shared.domain.Artist;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -14,9 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /// JPA test for {@link ArtistRepository}
 ///
 /// @author Giri Pottepalem
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DataJpaTest
-public class ArtistRepositoryIntegrationTest {
+public class ArtistRepositoryIntegrationTest extends BaseDataJpaTest {
     @Autowired
     private ArtistRepository artistRepository;
 

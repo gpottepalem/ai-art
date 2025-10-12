@@ -29,7 +29,7 @@ services:
   # === POSTGRES + PGVECTOR (Vector DB for AI app) ===
   pgvector:
     container_name: pgvector
-    # Postgres 16 with pgvector extension pre-installed
+    # Postgres 18 with pgvector extension pre-installed
     image: 'pgvector/pgvector:pg18'
     environment:
       - 'POSTGRES_DB=ai-art'             # Database name

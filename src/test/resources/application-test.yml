@@ -8,7 +8,7 @@ spring:
     # jdbc:tc:postgres:18:///ai-art-test → tells Testcontainers to start a PostgreSQL 18 container
     # ?TC_IMAGE=pgvector/pgvector:pg18 → overrides the default image to use pgvector
     # ai-art-test → your database name inside the container
-    url: jdbc:tc:postgresql:18:///ai-art-test?TC_IMAGE=/pgvector:pg18
+    url: jdbc:tc:postgresql:18:///ai-art-test?TC_IMAGE=pgvector/pgvector:pg18
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     username: ai-art-test
     password: secret
@@ -35,6 +35,8 @@ spring:
 
   flyway:
     enabled: true  # if using Flyway
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 
 logging:
   level:
@@ -45,6 +47,8 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
     com.zaxxer.hikari.HikariConfig: debug
     com.zaxxer.hikari: trace
+    org.flywaydb: debug
+    org.testcontainers: debug
     # application
     com.giri.aiart: debug
 

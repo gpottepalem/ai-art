@@ -1,4 +1,4 @@
-package com.giri.aiart.storage;
+package com.giri.aiart.modules.storage;
 
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;

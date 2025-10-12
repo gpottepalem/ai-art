@@ -1,4 +1,4 @@
-package com.giri.aiart.storage;
+package com.giri.aiart.modules.storage;
 
 import com.giri.aiart.config.MinioProperties;
 import io.minio.*;

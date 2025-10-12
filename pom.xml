@@ -155,8 +155,8 @@
         </dependency>
         <!-- Testcontainers -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-testcontainers</artifactId>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-spring-boot-testcontainers</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

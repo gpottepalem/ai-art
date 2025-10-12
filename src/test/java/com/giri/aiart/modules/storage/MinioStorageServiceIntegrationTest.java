@@ -1,5 +1,6 @@
-package com.giri.aiart.storage;
+package com.giri.aiart.modules.storage;
 
+import com.giri.aiart.BaseIntegrationTest;
 import com.giri.aiart.config.MinioConfig;
 import com.giri.aiart.config.MinioProperties;
 import org.junit.jupiter.api.AfterAll;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
@@ -26,9 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 ///
 /// @author Giri Pottepalem
 @SpringBootTest(classes = {MinioStorageService.class, MinioConfig.class, MinioProperties.class})
-@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MinioStorageServiceIntegrationTest {
+public class MinioStorageServiceIntegrationTest extends BaseIntegrationTest {
     /// Setup Testcontainers base class that can run any Docker image (as opposed to specialized ones like
     /// PostgreSQLContainer or MongoDBContainer).
     /// Start a MinIO container dynamically
