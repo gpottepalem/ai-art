@@ -10,10 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import static org.mockito.BDDMockito.given;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 /// Integration Smoke Test to ensure that the application starts up.
 /// @author Giri Pottepalem
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
     useMainMethod = SpringBootTest.UseMainMethod.ALWAYS
 )
 @ExtendWith(OutputCaptureExtension.class)
+@Import(TestcontainersConfig.class)
 class AiArtApplicationIntegrationTest {
     @Autowired
     ApplicationContext applicationContext;

@@ -16,6 +16,11 @@ Run the following command from the project root dir:
 ./mvnw spring-boot:run
 ```
 
+## Testcases
+### [Testcontainers](https://testcontainers.com/guides/testcontainers-container-lifecycle/)
+Testcontainers is a Java library that launches the service within the Docker container, runs tests, and eventually 
+destroys the container. You don’t need to worry about anything, the framework does the job.
+
 ## Tech Stack
 ### [Spring Boot](https://docs.spring.io/spring-boot/index.html)
 ### [Spring AI](https://docs.spring.io/spring-ai/reference/1.1/index.html)
