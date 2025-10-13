@@ -2,6 +2,8 @@ package com.giri.aiart;
 
 import com.giri.aiart.shared.util.LogIcons;
 import lombok.extern.slf4j.Slf4j;
+import org.mockito.Mockito;
+import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
@@ -53,5 +55,10 @@ public class TestcontainersConfig {
         // Use a specific pgvector image, e.g., for PostgreSQL 18
         var image = DockerImageName.parse("pgvector/pgvector:pg18");
         return new PostgreSQLContainer<>(image);
+    }
+
+    @Bean
+    public OllamaApi ollamaApi() {
+        return Mockito.mock(OllamaApi.class);
     }
 }
