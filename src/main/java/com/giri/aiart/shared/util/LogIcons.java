@@ -7,11 +7,18 @@ import lombok.experimental.UtilityClass;
 /// @author Giri Pottepalem
 @UtilityClass
 public class LogIcons {
+    public final String STARTUP = "🚀";
     public final String AI = "✨"; // AI
+    public final String CHAT ="💬";
+    public final String PENCIL = "✏️";
+    public final String DOCUMENT = "📄";
     public final String SEED = "🌱"; // AI
     public final String FILE = "📂"; // AI
     public final String DATA = "📥"; // AI
     public final String ARTIST = "🎨"; // AI
+    public final String ANALYSIS = "📊";
+    public final String SEARCH = "🔍";
+    public final String TEXT = "📝";
     public final String TIMER = "🕓"; // AI
     public final String CONTROLLER = "🌐"; // Controller / Web Layer
     public final String SERVICE = "🛠️"; // Service / Business Logic Layer
@@ -22,4 +29,7 @@ public class LogIcons {
     public final String SUCCESS = "✅"; // Optional: success / completion
     public final String WARNING = "⚠️"; // Optional: warning / completion
     public final String ERROR = "❌"; // Optional: error / failure
+    public final String BAR_CHART = "📊";
+    public final String LINE_CHART = "📈";
+
 }

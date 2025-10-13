@@ -1,5 +1,6 @@
 package com.giri.aiart.ollama;
 
+import com.giri.aiart.shared.util.LogIcons;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ class OllamaController {
     @GetMapping("/")
     public Flux<String> generate(@RequestParam(value = "message", defaultValue = "In which country Art is valued most in th world? Just give me answer in one sentence.") String message,
                                  HttpServletRequest httpServletRequest) {
-        log.info(httpServletRequest.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
         return ollamaService.generateTextStream(message);
     }
 
@@ -27,7 +28,7 @@ class OllamaController {
     @GetMapping("/joke/stream")
     public Flux<String> stream(@RequestParam(value = "message", defaultValue = "Tell me an Art related joke") String message,
                                HttpServletRequest httpServletRequest) {
-        log.info(httpServletRequest.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
         return ollamaService.generateTextStream(message);
     }
 
@@ -35,14 +36,14 @@ class OllamaController {
     @GetMapping("/joke/stream/json")
     public Flux<String> streamJson(@RequestParam(value = "message", defaultValue = "Tell me an Art related joke") String message,
                                    HttpServletRequest httpServletRequest) {
-        log.info(httpServletRequest.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
         return ollamaService.generateJsonStream(message);
     }
 
     @GetMapping("{user}/assistant")
     public Flux<String> inquire(@PathVariable String user, @RequestParam String question,
                                 HttpServletRequest httpServletRequest) {
-        log.info(httpServletRequest.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
         return ollamaService.assist(user, question);
     }
 }

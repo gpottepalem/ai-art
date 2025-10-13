@@ -1,6 +1,7 @@
 package com.giri.aiart;
 
 import com.giri.aiart.config.MinioProperties;
+import com.giri.aiart.shared.util.LogIcons;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class AiArtApplication {
     public CommandLineRunner initializationChecks(@Autowired(required = false)JdbcClient jdbcClient) {
         return args -> {
             if (jdbcClient != null) {
-                log.info("🗄️ Database version: {}", jdbcClient.sql("SELECT version()").query(String.class).single());
+                log.info("{} Database version: {}", LogIcons.PERSISTENCE, jdbcClient.sql("SELECT version()").query(String.class).single());
             }
         };
     }

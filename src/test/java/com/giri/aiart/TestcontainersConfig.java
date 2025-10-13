@@ -1,5 +1,6 @@
 package com.giri.aiart;
 
+import com.giri.aiart.shared.util.LogIcons;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -48,7 +49,7 @@ public class TestcontainersConfig {
     @Bean // Spring-managed bean for dependency injection.
     @ServiceConnection // Indicates this container provides a service connection (used with Testcontainers).
     public PostgreSQLContainer<?> pgVectorContainer() {
-        log.info("*** Configuring PostgreSQL Container with pgvector extension for testcontainers");
+        log.info("{} Configuring PostgreSQL Container with pgvector extension for testcontainers", LogIcons.STARTUP);
         // Use a specific pgvector image, e.g., for PostgreSQL 18
         var image = DockerImageName.parse("pgvector/pgvector:pg18");
         return new PostgreSQLContainer<>(image);

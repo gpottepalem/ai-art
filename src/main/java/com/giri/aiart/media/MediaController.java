@@ -1,6 +1,7 @@
 package com.giri.aiart.media;
 
 import com.giri.aiart.prompt.PromptType;
+import com.giri.aiart.shared.util.LogIcons;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +45,8 @@ public class MediaController {
             @RequestParam(value = "media", required = false, defaultValue = "london-boris.jpg") String mediaFileName,
             @RequestParam(value = "promptType", required = false, defaultValue = "DESCRIPTION") PromptType promptType
     ) throws IOException {
-        log.info(httpServletRequest.getRequestURL().toString());
-        log.info("Analyzing media: {} for {}...", mediaFileName, promptType);
+        log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
+        log.info("{} Analyzing media: {} for {}...", LogIcons.ANALYSIS, mediaFileName, promptType);
 
         return mediaService.analyzeMedia(mediaFileName, promptType);
     }
@@ -67,8 +68,8 @@ public class MediaController {
             HttpServletRequest httpServletRequest,
             @RequestParam(value = "media", required = false, defaultValue = "gandhi-quote.png") String mediaFileName
     ) throws IOException {
-        log.info(httpServletRequest.getRequestURL().toString());
-        log.info("Extracting text: {}...", mediaFileName);
+        log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
+        log.info("{} Extracting text: {}...", LogIcons.TEXT, mediaFileName);
         return mediaService.extractText(mediaFileName);
     }
 }

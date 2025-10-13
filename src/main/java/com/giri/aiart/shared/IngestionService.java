@@ -52,7 +52,7 @@ public class IngestionService {
                 log.info("{} Flyway is ready. Proceeding with ingestion...", LogIcons.SUCCESS);
                 return;
             } catch (Exception e) {
-                log.warn("Flyway not ready yet ({}). Retrying in 3s...", e.getMessage());
+                log.warn("{} Flyway not ready yet ({}). Retrying in 3s...", LogIcons.WARNING, e.getMessage());
                 try {
                     TimeUnit.SECONDS.sleep(3);
                 } catch (InterruptedException ie) {
@@ -60,7 +60,7 @@ public class IngestionService {
                 }
             }
         }
-        log.error("❌ Flyway did not become ready after waiting. Skipping ingestion.");
+        log.error("{} Flyway did not become ready after waiting. Skipping ingestion.", LogIcons.ERROR);
     }
 
     /// Checks if tables are empty and seeds data (artists) if needed.

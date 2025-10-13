@@ -2,6 +2,7 @@ package com.giri.aiart.chat;
 
 import com.giri.aiart.shared.domain.Painting;
 import com.giri.aiart.shared.domain.type.ArtMedia;
+import com.giri.aiart.shared.util.LogIcons;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClientResponse;
@@ -50,7 +51,7 @@ public class ArtMasterController {
             HttpServletRequest request,
             @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
             @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         String response = artMasterService.artChatContent(artMedia, object);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -73,7 +74,7 @@ public class ArtMasterController {
             HttpServletRequest request,
             @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
             @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         return artMasterService.artStreamChatContent(artMedia, object);
     }
 
@@ -94,7 +95,7 @@ public class ArtMasterController {
             HttpServletRequest request,
             @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
             @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         var response = artMasterService.artChatResponse(artMedia, object);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -116,7 +117,7 @@ public class ArtMasterController {
             HttpServletRequest request,
             @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
             @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         var response = artMasterService.artChatClientResponse(artMedia, object);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -138,7 +139,7 @@ public class ArtMasterController {
             HttpServletRequest request,
             @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
             @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         return artMasterService.artStreamChatResponse(artMedia, object);
     }
 
@@ -159,7 +160,7 @@ public class ArtMasterController {
             HttpServletRequest request,
             @RequestParam(value = "media", required = false, defaultValue = "OIL") ArtMedia artMedia,
             @RequestParam(value = "object", required = false, defaultValue = "Bird") String object) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         return artMasterService.artStreamChatContentWords(artMedia, object);
     }
 
@@ -174,7 +175,7 @@ public class ArtMasterController {
     public List<Painting> synchronousChatEntity(
             HttpServletRequest request,
             @RequestParam(value = "about", required = false, defaultValue = "Give me 3 famous paintings by Picasso.") String about) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         return artMasterService.synchronousChatEntity(about);
     }
 
@@ -189,7 +190,7 @@ public class ArtMasterController {
     public Flux<List<Painting>> streamingEntityCollection(
             HttpServletRequest request,
             @RequestParam(value = "about", required = false, defaultValue = "Give me 3 famous paintings by Picasso.") String about) {
-        log.info(request.getRequestURL().toString());
+        log.info("{} {}", LogIcons.CONTROLLER, request.getRequestURL().toString());
         return artMasterService.streamingEntityCollection(about);
     }
 }
