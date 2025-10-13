@@ -5,30 +5,30 @@ import lombok.Getter;
 import lombok.ToString;
 
 /// An enumeration of Art Media
-/// Holds {@link ArtForm} that the media belongs to
+/// Holds {@link ArtType} that the media belongs to
 /// @author Giri Pottepalem
 @Getter
 @ToString
 @AllArgsConstructor
 public enum ArtMedia {
-    WATERCOLOR(ArtForm.PAINTING, "Watercolor"),
-    OIL(ArtForm.PAINTING,"Oil"),
-    ACRYLIC(ArtForm.PAINTING,"Acrylic"),
+    WATERCOLOR(ArtType.PAINTING, "Watercolor"),
+    OIL(ArtType.PAINTING,"Oil"),
+    ACRYLIC(ArtType.PAINTING,"Acrylic"),
 
-    PENCIL(ArtForm.DRAWING, "Pencil"),
-    INK(ArtForm.DRAWING, "Ink"),
-    PEN(ArtForm.DRAWING, "Pen"),
-    CHALK(ArtForm.DRAWING, "Chalk"),
-    CRAYON(ArtForm.DRAWING, "Crayon"),
-    CHAR_COAL(ArtForm.DRAWING, "Charcoal"),
-    ILLUSTRATION(ArtForm.DRAWING, "Illustration"),
+    PENCIL(ArtType.DRAWING, "Pencil"),
+    INK(ArtType.DRAWING, "Ink"),
+    PEN(ArtType.DRAWING, "Pen"),
+    CHALK(ArtType.DRAWING, "Chalk"),
+    CRAYON(ArtType.DRAWING, "Crayon"),
+    CHAR_COAL(ArtType.DRAWING, "Charcoal"),
+    ILLUSTRATION(ArtType.DRAWING, "Illustration"),
 
-    VECTOR(ArtForm.DIGITAL, "Vector"),
-    TWO_D_ANIMATION(ArtForm.DIGITAL, "2D Animation"),
-    THREE_D_ANIMATION(ArtForm.DIGITAL, "3D Animation"),
-    AI(ArtForm.DIGITAL, "AI Art"),
-    DIGITAL_PHOTOGRAPHY(ArtForm.DIGITAL, "Digital Photography");
+    VECTOR(ArtType.DIGITAL, "Vector"),
+    TWO_D_ANIMATION(ArtType.DIGITAL, "2D Animation"),
+    THREE_D_ANIMATION(ArtType.DIGITAL, "3D Animation"),
+    AI(ArtType.DIGITAL, "AI Art"),
+    DIGITAL_PHOTOGRAPHY(ArtType.DIGITAL, "Digital Photography");
 
-    private final ArtForm artForm;
+    private final ArtType artType;
     private final String label;
 }

@@ -1,6 +1,6 @@
 package com.giri.aiart.prompt;
 
-import com.giri.aiart.util.MediaUtils;
+import com.giri.aiart.shared.util.MediaUtils;
 import lombok.NonNull;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;

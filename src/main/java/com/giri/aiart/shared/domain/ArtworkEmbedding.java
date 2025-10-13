@@ -1,15 +1,25 @@
 package com.giri.aiart.shared.domain;
 
+import com.giri.aiart.shared.domain.type.EmbeddingStatusType;
+import com.giri.aiart.shared.domain.type.EmbeddingType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
+import io.hypersistence.utils.hibernate.type.array.FloatArrayType;
+
+import java.io.Serial;
 
 /// Persistable entity
 ///
 /// @author Giri Pottepalem
 @Entity
-@Table(name = "artwork_embeddings")
+@Table(name = "artwork_embeddings",
+    indexes = {
+        @Index(name = "idx_artwork_embeddings_artwork_id", columnList = "artwork_id")
+    }
+)
 
 @Getter @Setter
 @NoArgsConstructor
@@ -17,20 +27,28 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
 public class ArtworkEmbedding extends BaseAuditEntity {
-    private static final long serialVersionUID = 1L;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "artwork_id",  nullable = false)
+    @ToString.Exclude // avoid recursion
     private Artwork artwork;
 
-    /// Type of this embedding (e.g. "image", "text", "combined", etc.)
-    @Column(name = "embedding_type", length = 100, nullable = false)
-    private String type;
+    @Column(name = "type", nullable = false, length = 32)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @ToString.Include
+    private EmbeddingType type = EmbeddingType.IMAGE; // default
+
+    @Column(name = "status", nullable = false, length = 32)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @ToString.Include
+    private EmbeddingStatusType status = EmbeddingStatusType.ACTIVE; // default
 
     /// The embedding vector. Using PgVector extension, stored in a column "vector(N)".
     /// Hibernate 6 requires a custom JdbcType for VECTOR, typically via hibernate-vector module.
-    @Column(name = "embedding", columnDefinition = "vector(1536)")
-    @JdbcTypeCode(value = SqlTypes.VECTOR)
+    @Column(name = "embedding", columnDefinition = "vector(1536)", nullable = false)
+//    @JdbcTypeCode(value = SqlTypes.VECTOR)
+    @Type(value = FloatArrayType.class)
     private float[] embedding;
 
 /*

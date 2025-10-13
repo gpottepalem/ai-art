@@ -2,7 +2,7 @@ package com.giri.aiart.media;
 
 import com.giri.aiart.prompt.PromptFactory;
 import com.giri.aiart.prompt.PromptType;
-import com.giri.aiart.util.MediaUtils;
+import com.giri.aiart.shared.util.MediaUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;

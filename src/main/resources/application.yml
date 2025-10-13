@@ -2,6 +2,10 @@ app:
   name: "@project.name@"
   version: "@project.version@"
 
+aiart:
+  ingestion:
+    enabled: true
+
 spring:
   application:
     name: ai-art

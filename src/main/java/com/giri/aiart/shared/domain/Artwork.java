@@ -1,11 +1,13 @@
 package com.giri.aiart.shared.domain;
 
+import com.giri.aiart.shared.domain.type.ArtType;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,15 +15,18 @@ import java.util.UUID;
 ///
 /// @author Giri Pottepalem
 @Entity
-@Table(name = "artworks")
+@Table(name = "artworks",
+    indexes = {
+        @Index(name = "idx_artworks_artist_id", columnList = "artist_id")
+    }
+)
+
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString(onlyExplicitlyIncluded = true)
 public class Artwork extends BaseAuditEntity{
-    private static final long serialVersionUID = 1L;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "artist_id", nullable = false)
     private Artist artist;
@@ -34,6 +39,12 @@ public class Artwork extends BaseAuditEntity{
     @ToString.Include
     private String description;
 
+    @Column(name = "art_type", nullable = false, length = 32)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM) // for native PG enum type
+    @ToString.Include
+    private ArtType artType;
+
     @Column(name = "minio_key", length = Integer.MAX_VALUE)
     @ToString.Include
     private String minioKey;
@@ -42,18 +53,22 @@ public class Artwork extends BaseAuditEntity{
     @ToString.Include
     private String thumbnailKey;
 
-    @ColumnDefault("false")
-    @Column(name = "public")
-    @ToString.Include
-    private Boolean publicField;
-
     @Column(name = "metadata")
     @JdbcTypeCode(SqlTypes.JSON)
     @ToString.Include
     private Map<String, Object> metadata;
 
+    @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ArtworkEmbedding> embeddings = new ArrayList<>();
+
     @ToString.Include
     protected UUID getArtistId() {
         return artist != null ? artist.getId() : null;
+    }
+
+    /// Helper: For a given art work embeddings to be added, sets this art work and adds those to the art work.
+    public void addEmbeddings(List<ArtworkEmbedding> embeddingsToAdd) {
+        embeddingsToAdd.forEach(embedding -> embedding.setArtwork(this));
+        this.embeddings.addAll(embeddingsToAdd);
     }
 }

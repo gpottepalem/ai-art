@@ -3,18 +3,18 @@ package com.giri.aiart.shared.domain.type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.modulith.NamedInterface;
 
-/// An enumeration of Art Forms
+/// An enumeration of Embedding Status Type
+///
 /// @author Giri Pottepalem
-@NamedInterface
 @Getter
 @ToString
 @AllArgsConstructor
-public enum ArtForm {
-    DRAWING("Drawing"),
-    PAINTING("Painting"),
-    DIGITAL("Digital");
+public enum EmbeddingStatusType {
+    ACTIVE("Active"),
+    INACTIVE("Inactive"),
+    NEEDS_UPDATE("Needs Update"),
+    ARCHIVED("Archived");
 
     private final String label;
 }

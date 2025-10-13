@@ -1,0 +1,48 @@
+[
+  {
+    "firstName": "Bapu",
+    "lastName": "Sattiraju",
+    "bio": "The legendary Telugu artist who mastered line art and storytelling.",
+    "profileImageUrl": "artists/bapu/profile.png",
+    "artworks": [
+      {
+        "title": "Village Goddess",
+        "description": "A line art depiction of a village deity with intricate details.",
+        "artType": "DRAWING",
+        "minioKey": "artworks/village_goddess.png",
+        "thumbnailKey": "thumbnails/village_goddess_thumb.png",
+        "metadata": {
+          "resolution": "1024x768",
+          "medium": "pen_ink",
+          "style": "line_art"
+        },
+        "embeddings": [
+          {
+            "type": "IMAGE",
+            "status": "ACTIVE",
+            "embedding": [0.12, 0.45, 0.33, 0.55, 0.27]
+          }
+        ]
+      },
+      {
+        "title": "Krishna and Cows",
+        "description": "A serene scene showing Krishna with his cows, a blend of myth and simplicity.",
+        "artType": "PAINTING",
+        "minioKey": "artworks/krishna_cows.png",
+        "thumbnailKey": "thumbnails/krishna_cows_thumb.png",
+        "metadata": {
+          "resolution": "2048x2048",
+          "medium": "digital",
+          "colorPalette": "pastel"
+        },
+        "embeddings": [
+          {
+            "type": "IMAGE",
+            "status": "ACTIVE",
+            "embedding": [0.22, 0.14, 0.65, 0.11, 0.98]
+          }
+        ]
+      }
+    ]
+  }
+]

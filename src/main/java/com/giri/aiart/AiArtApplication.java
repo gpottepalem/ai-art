@@ -34,7 +34,7 @@ public class AiArtApplication {
     public CommandLineRunner initializationChecks(@Autowired(required = false)JdbcClient jdbcClient) {
         return args -> {
             if (jdbcClient != null) {
-                log.info("Database version: {}", jdbcClient.sql("SELECT version()").query(String.class).single());
+                log.info("🗄️ Database version: {}", jdbcClient.sql("SELECT version()").query(String.class).single());
             }
         };
     }

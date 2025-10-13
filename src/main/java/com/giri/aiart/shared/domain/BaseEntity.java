@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -17,6 +18,9 @@ import java.util.UUID;
 @Getter @Setter
 @ToString(onlyExplicitlyIncluded = true)
 public abstract class BaseEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
     @Column(nullable = false, updatable = false)

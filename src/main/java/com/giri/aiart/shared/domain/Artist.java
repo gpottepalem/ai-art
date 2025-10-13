@@ -3,6 +3,8 @@ package com.giri.aiart.shared.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 /// Persistable entity
@@ -16,8 +18,6 @@ import java.util.Set;
 @Builder
 @ToString(onlyExplicitlyIncluded = true)
 public class Artist extends BaseAuditEntity {
-    private static final long serialVersionUID = 1L;
-
     @Column(nullable = false)
     @ToString.Include
     private String firstName;
@@ -32,5 +32,11 @@ public class Artist extends BaseAuditEntity {
     private String profileImageUrl; // stored in MinIO
 
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Artwork> artworks;
+    private List<Artwork> artworks;
+
+    /// Helper: For a given art works to be added, sets this artist and adds those to the artist.
+    public void addArtWorks(@NotNull List<Artwork> artworksToAdd) {
+        artworksToAdd.forEach(artwork -> artwork.setArtist(this));
+        this.artworks.addAll(artworksToAdd);
+    }
 }

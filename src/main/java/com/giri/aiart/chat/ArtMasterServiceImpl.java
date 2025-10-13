@@ -35,7 +35,7 @@ public class ArtMasterServiceImpl implements ArtMasterService {
                 Generate detailed instructions for making an object: %s in art form: %s and art media: %s.
                 Include material list, step-by-step instructions (max 4), time required, and helpful tips (max 4).
                 Format it nicely using HTML with clear sections.
-                """, object, artMedia.getArtForm().getLabel(), artMedia.getLabel());
+                """, object, artMedia.getArtType().getLabel(), artMedia.getLabel());
     }
     /// Constructs and instance of {@link ArtMasterServiceImpl}
     public ArtMasterServiceImpl(ChatClient.Builder builder, SimpleLoggerAdvisor simpleLoggerAdvisor, ObjectMapper objectMapper) {
