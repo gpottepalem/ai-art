@@ -10,6 +10,7 @@ public class LogIcons {
     public final String STARTUP = "🚀";
     public final String AI = "✨";
     public final String CHAT ="💬";
+    public final String PIN ="📌";
     public final String PENCIL = "✏️";
     public final String DOCUMENT = "📄";
     public final String SEED = "🌱";
@@ -31,4 +32,5 @@ public class LogIcons {
     public final String ERROR = "❌";        // error / failure
     public final String BAR_CHART = "📊";
     public final String LINE_CHART = "📈";
+    public final String TEST = "🧪";
 }

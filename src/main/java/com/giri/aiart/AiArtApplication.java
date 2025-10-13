@@ -4,9 +4,11 @@ import com.giri.aiart.config.MinioProperties;
 import com.giri.aiart.shared.util.LogIcons;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.ai.model.ollama.autoconfigure.OllamaApiAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,11 +18,12 @@ import org.springframework.modulith.Modulith;
 
 /// The main Spring Boot application.
 /// @author Giri Pottepalem
-@SpringBootApplication
+@Slf4j
 @Modulith
 @EnableJpaAuditing
+@SpringBootApplication
 @EnableConfigurationProperties(MinioProperties.class)
-@Slf4j
+@ImportAutoConfiguration(OllamaApiAutoConfiguration.class) // 1.1.0-M3
 public class AiArtApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AiArtApplication.class, args);
