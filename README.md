@@ -104,7 +104,7 @@ http --stream :8080/art-master/stream  # streaming
 * 🌐 http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
 * 🌐 http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)
 
-### 🔦 [Observability](https://docs.spring.io/spring-ai/reference/observability/index.html)
+## 🔦 [Observability](https://docs.spring.io/spring-ai/reference/observability/index.html)
 
 🌐 Actuator Endpoint - [http://localhost:8080/actuator](http://localhost:8080/actuator)  
 🌐 Metrics names - [http://localhost:8080/actuator/metrics](http://localhost:8080/actuator/metrics) - Notice gen_ai  
