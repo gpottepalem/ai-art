@@ -1,18 +1,44 @@
 package com.giri.aiart.prompt;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.core.io.Resource;
 
 import java.util.List;
 import java.util.Map;
 
 /// Prompt Factory to build Prompt with system and user messages and parameters
 /// @author Giri Pottepalem
+@UtilityClass
 public class PromptFactory {
+
+    public Prompt createPrompt(PromptType promptType, Resource mediaResource) {
+        return createPrompt(promptType, mediaResource, PromptBuilder.DEFAULT_PARAMS, PromptBuilder.DEFAULT_PARAMS);
+    }
+
     /// Builds prompt with default system and user parameters
     /// @param promptType the prompt type
     /// @param mediaFileName media filename sent to multimodal AI
-    public static Prompt createPrompt(PromptType promptType, String mediaFileName) {
+    public Prompt createPrompt(PromptType promptType, String mediaFileName) {
         return createPrompt(promptType, mediaFileName, PromptBuilder.DEFAULT_PARAMS, PromptBuilder.DEFAULT_PARAMS);
+    }
+
+    /// Builds  prompt
+    /// @param promptType prompt type
+    /// @param mediaResource the media resource
+    /// @param systemParameters system parameters if any
+    /// @param userParameters user parameters if any
+    /// @return the prompt with system and user messages initialized with parameters
+    public Prompt createPrompt(PromptType promptType, Resource mediaResource,
+                               Map<String, Object> systemParameters,
+                               Map<String, Object> userParameters) {
+        PromptBuilder promptBuilder = buildFor(promptType);
+        return new Prompt(
+            List.of(
+                promptBuilder.buildSystemMessage(systemParameters),
+                promptBuilder.buildUserMessage(userParameters, mediaResource)
+            )
+        );
     }
 
     /// Builds  prompt
@@ -21,7 +47,7 @@ public class PromptFactory {
     /// @param systemParameters system parameters if any
     /// @param userParameters user parameters if any
     /// @return the prompt with system and user messages initialized with parameters
-    public static Prompt createPrompt(PromptType promptType, String mediaFilename,
+    public Prompt createPrompt(PromptType promptType, String mediaFilename,
                                       Map<String, Object> systemParameters,
                                       Map<String, Object> userParameters) {
         PromptBuilder promptBuilder = buildFor(promptType);
@@ -36,7 +62,7 @@ public class PromptFactory {
     /// Helper, returns the builder for the given prompt type
     /// @param promptType the prompt type
     /// @return the prompt builder
-    private static PromptBuilder buildFor(PromptType promptType) {
+    private PromptBuilder buildFor(PromptType promptType) {
         return switch (promptType) {
             case DESCRIPTION -> new DescriptionPromptBuilder();
             case CAPTION -> new CaptionPromptBuilder();

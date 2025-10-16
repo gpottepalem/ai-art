@@ -1,12 +1,16 @@
 package com.giri.aiart.modules.storage;
 
 import com.giri.aiart.config.MinioProperties;
+import com.giri.aiart.shared.util.LogIcons;
 import io.minio.*;
 import io.minio.errors.MinioException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.UUID;
 
 /// Implementation of [`StorageService`](./StorageService.java) backed by **MinIO**.
 ///
@@ -26,6 +30,7 @@ import java.io.InputStream;
 /// InputStream in = storageService.downloadFile("images/art1.png");
 /// ```
 /// @author Giri Pottepalem
+@Slf4j
 @Service
 public class MinioStorageService implements StorageService {
     private final MinioClient minioClient;
@@ -34,6 +39,14 @@ public class MinioStorageService implements StorageService {
     MinioStorageService(MinioClient minioClient, MinioProperties minioProperties) {
         this.minioClient = minioClient;
         this.bucketName = minioProperties.getBucketName();
+    }
+
+    @Override
+    public String uploadFile(MultipartFile file, String prefix) throws Exception {
+        var objectKey = prefix + UUID.randomUUID() + "_" + file.getOriginalFilename();
+        uploadFile(objectKey, file.getInputStream(), file.getContentType());
+        log.info("🖼️ Uploaded file to MinIO: {}", objectKey);
+        return objectKey;
     }
 
     @Override
@@ -56,15 +69,18 @@ public class MinioStorageService implements StorageService {
             }
 
         } catch(MinioException e) {
+            log.error("{} Error uploading file to MinIO", LogIcons.ERROR, e);
             throw new RuntimeException("Error uploading file to MinIO", e);
         }
     }
 
     @Override
     public InputStream downloadFile(String objectName) throws Exception {
-        return minioClient.getObject(GetObjectArgs.builder()
-            .bucket(bucketName)
-            .object(objectName)
-            .build());
+        return minioClient.getObject(
+            GetObjectArgs.builder()
+                .bucket(bucketName)
+                .object(objectName)
+                .build()
+        );
     }
 }

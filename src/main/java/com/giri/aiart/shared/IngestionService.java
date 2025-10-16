@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /// Seeds initial data into the database if no artists exist.
-///
+/// TODO - RETIRE in favor of modules/ingestion/IngestionService in shared
 /// @author Giri Pottepalem
 @Slf4j
 @Service
@@ -81,7 +81,7 @@ public class IngestionService {
                 artist.getArtworks().forEach(artwork -> {
                     // Replace 5 element float[] from JSON with 1536 random float elements array, DB column vector(1536) requires exactly 1536
                     artwork.getEmbeddings().forEach(embedding ->
-                        embedding.setEmbedding(EmbeddingUtils.generateRandomEmbedding())
+                        embedding.setEmbedding(EmbeddingUtils.generateRandomEmbedding(1536))
                     );
                     artwork.addEmbeddings(artwork.getEmbeddings()); // add embeddings to artwork with proper back reference
                 });

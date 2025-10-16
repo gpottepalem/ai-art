@@ -58,6 +58,7 @@ public class Artwork extends BaseAuditEntity{
     @ToString.Include
     private Map<String, Object> metadata;
 
+    @Builder.Default
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArtworkEmbedding> embeddings = new ArrayList<>();
 
@@ -69,6 +70,9 @@ public class Artwork extends BaseAuditEntity{
     /// Helper: For a given art work embeddings to be added, sets this art work and adds those to the art work.
     public void addEmbeddings(List<ArtworkEmbedding> embeddingsToAdd) {
         embeddingsToAdd.forEach(embedding -> embedding.setArtwork(this));
+        if (embeddings == null) {
+            this.embeddings = new ArrayList<>();
+        }
         this.embeddings.addAll(embeddingsToAdd);
     }
 }

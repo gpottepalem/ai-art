@@ -9,6 +9,7 @@ import lombok.experimental.UtilityClass;
 public class LogIcons {
     public final String STARTUP = "🚀";
     public final String AI = "✨";
+    public final String OLLAMA = "🤖";
     public final String CHAT ="💬";
     public final String PIN ="📌";
     public final String PENCIL = "✏️";
@@ -17,6 +18,7 @@ public class LogIcons {
     public final String FILE = "📂";
     public final String DATA = "📥";
     public final String ARTIST = "🎨";
+    public final String ART_WORK = "️🖼️";
     public final String ANALYSIS = "📊";
     public final String SEARCH = "🔍";
     public final String TEXT = "📝";

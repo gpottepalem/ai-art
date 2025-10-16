@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import java.util.Map;
 
@@ -27,11 +29,17 @@ public class DescriptionPromptBuilder implements PromptBuilder {
     }
 
     @Override
-    public UserMessage buildUserMessage(@NonNull Map<String, Object> parameters, String mediaFilename) {
+    public UserMessage buildUserMessage(Map<String, Object> parameters, Resource mediaResource) {
         return new UserMessage.Builder()
 //          .text("Describe this image.")
             .text("Write a story describing this image.")
-            .media(MediaUtils.toMedia(mediaFilename))
+            .media(MediaUtils.toMedia(mediaResource))
             .build();
+    }
+
+    @Override
+    public UserMessage buildUserMessage(@NonNull Map<String, Object> parameters, String mediaFilename) {
+        Resource imageResource= new ClassPathResource("images/" + mediaFilename);
+        return buildUserMessage(parameters, imageResource);
     }
 }

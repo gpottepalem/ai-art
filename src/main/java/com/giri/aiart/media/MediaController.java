@@ -48,7 +48,7 @@ public class MediaController {
         log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
         log.info("{} Analyzing media: {} for {}...", LogIcons.ANALYSIS, mediaFileName, promptType);
 
-        return mediaService.analyzeMedia(mediaFileName, promptType);
+        return mediaService.analyzeMediaStreaming(mediaFileName, promptType);
     }
 
     /**

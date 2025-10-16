@@ -3,6 +3,7 @@ package com.giri.aiart.prompt;
 import lombok.NonNull;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.core.io.Resource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,11 @@ public interface PromptBuilder {
 
     /// Given a map of parameters, it builds and returns system message
     SystemMessage buildSystemMessage(Map<String, Object> parameters);
+
+    /// Given a map of parameters, it builds and returns user message
+    /// @param parameters user message parameters
+    /// @param mediaResource the media resource to be used for multimodal AI
+    UserMessage buildUserMessage(Map<String, Object> parameters, Resource mediaResource);
 
     /// Given a map of parameters, it builds and returns user message
     /// @param parameters user message parameters

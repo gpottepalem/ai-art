@@ -16,8 +16,8 @@ public class EmbeddingUtils {
     /// each rounded to six decimal places.
     ///
     /// @return A float array of size 1536 with random values.
-    public float[] generateRandomEmbedding() {
-        float[] embedding = new float[1536];
+    public float[] generateRandomEmbedding(int dimensions) {
+        float[] embedding = new float[dimensions];
         IntStream.range(0, embedding.length)
             .forEach(i -> embedding[i] = Math.round((random.nextFloat() * 2 - 1) * 1_000_000.0) / 1_000_000.0f);
         return embedding;

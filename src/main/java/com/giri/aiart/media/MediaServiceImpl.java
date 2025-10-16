@@ -2,6 +2,7 @@ package com.giri.aiart.media;
 
 import com.giri.aiart.prompt.PromptFactory;
 import com.giri.aiart.prompt.PromptType;
+import com.giri.aiart.shared.util.LogIcons;
 import com.giri.aiart.shared.util.MediaUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -9,6 +10,7 @@ import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -29,12 +31,33 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public Flux<String> analyzeMedia(String mediaFileName, PromptType promptType) throws IOException {
+    public Flux<String> analyzeMediaStreaming(String mediaFileName, PromptType promptType) throws IOException {
+        log.info("{} Analyzing mediaFile:{} for generating {}", LogIcons.ANALYSIS, mediaFileName, promptType.name());
         Prompt prompt = PromptFactory.createPrompt(promptType, mediaFileName);
 
         return chatClient.prompt(prompt)
             .advisors(simpleLoggerAdvisor)
             .stream()
+            .content();
+    }
+
+    @Override
+    public Flux<String> analyzeMediaStreaming(Resource mediaResource, PromptType promptType) throws IOException {
+        log.info("{} Analyzing mediaResource for generating {}", LogIcons.ANALYSIS, promptType.name());
+        Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
+        return chatClient.prompt(prompt)
+            .advisors(simpleLoggerAdvisor)
+            .stream()
+            .content();
+    }
+
+    @Override
+    public String analyzeMedia(Resource mediaResource, PromptType promptType) throws IOException {
+        log.info("{} Analyzing mediaResource for generating {}", LogIcons.ANALYSIS, promptType.name());
+        Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
+        return chatClient.prompt(prompt)
+            .advisors(simpleLoggerAdvisor)
+            .call()
             .content();
     }
 

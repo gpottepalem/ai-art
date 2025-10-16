@@ -41,6 +41,7 @@ public class ArtworkEmbedding extends BaseAuditEntity {
     @Column(name = "status", nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Builder.Default
     @ToString.Include
     private EmbeddingStatusType status = EmbeddingStatusType.ACTIVE; // default
 

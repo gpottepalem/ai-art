@@ -4,6 +4,8 @@ import com.giri.aiart.shared.util.MediaUtils;
 import lombok.NonNull;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import java.util.Map;
 
@@ -25,10 +27,16 @@ public class CaptionPromptBuilder implements PromptBuilder {
     }
 
     @Override
-    public UserMessage buildUserMessage(Map<String, Object> parameters, String mediaFilename) {
+    public UserMessage buildUserMessage(Map<String, Object> parameters, Resource mediaResource) {
         return new UserMessage.Builder()
             .text("Generate a caption for this image.")
-            .media(MediaUtils.toMedia(mediaFilename))
+            .media(MediaUtils.toMedia(mediaResource))
             .build();
+    }
+
+    @Override
+    public UserMessage buildUserMessage(Map<String, Object> parameters, String mediaFilename) {
+        Resource imageResource= new ClassPathResource("images/" + mediaFilename);
+        return buildUserMessage(parameters, imageResource);
     }
 }

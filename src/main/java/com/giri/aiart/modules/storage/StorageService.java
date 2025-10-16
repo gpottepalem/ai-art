@@ -1,5 +1,7 @@
 package com.giri.aiart.modules.storage;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.InputStream;
 
 /// Interface defining a generic storage service abstraction.
@@ -15,6 +17,13 @@ import java.io.InputStream;
 /// - `InMemoryStorageService` (for testing)
 /// @author Giri Pottepalem
 public interface StorageService {
+
+    /// Upload a file to MinIO with a generated object key
+    /// @param file the file to upload
+    /// @param prefix optional prefix/folder in MinIO bucket (e.g., "artworks/")
+    /// @return the generated MinIO object key
+    String uploadFile(MultipartFile file, String prefix) throws Exception;
+
     /// Uploads a file (object) to the configured storage bucket.
     ///
     /// ### Parameters

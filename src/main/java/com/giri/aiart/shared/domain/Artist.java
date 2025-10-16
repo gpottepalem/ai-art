@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -31,12 +32,16 @@ public class Artist extends BaseAuditEntity {
 
     private String profileImageUrl; // stored in MinIO
 
+    @Builder.Default
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Artwork> artworks;
+    private List<Artwork> artworks =  new ArrayList<>();
 
     /// Helper: For a given art works to be added, sets this artist and adds those to the artist.
     public void addArtWorks(@NotNull List<Artwork> artworksToAdd) {
         artworksToAdd.forEach(artwork -> artwork.setArtist(this));
+        if (this.artworks == null) {
+            this.artworks = new ArrayList<>();
+        }
         this.artworks.addAll(artworksToAdd);
     }
 }
