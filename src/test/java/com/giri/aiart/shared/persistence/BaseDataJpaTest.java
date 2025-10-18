@@ -1,6 +1,6 @@
 package com.giri.aiart.shared.persistence;
 
-import com.giri.aiart.TestcontainersConfig;
+import com.giri.aiart.config.TestcontainersConfig;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;

@@ -1,6 +1,6 @@
 package com.giri.aiart.modules.ingestion;
 
-import com.giri.aiart.TestcontainersConfig;
+import com.giri.aiart.config.TestcontainersConfig;
 import com.giri.aiart.shared.domain.Artist;
 import com.giri.aiart.shared.domain.type.ArtType;
 import com.giri.aiart.shared.domain.type.EmbeddingStatusType;

@@ -1,4 +1,4 @@
-package com.giri.aiart;
+package com.giri.aiart.config;
 
 import com.giri.aiart.shared.util.LogIcons;
 import lombok.extern.slf4j.Slf4j;

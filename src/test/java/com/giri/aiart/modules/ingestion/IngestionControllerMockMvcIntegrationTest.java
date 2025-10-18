@@ -1,7 +1,7 @@
 package com.giri.aiart.modules.ingestion;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.giri.aiart.TestcontainersConfig;
+import com.giri.aiart.config.TestcontainersConfig;
 import com.giri.aiart.modules.embeddings.EmbeddingGeneratorService;
 import com.giri.aiart.modules.storage.MinioStorageService;
 import com.giri.aiart.shared.domain.Artist;

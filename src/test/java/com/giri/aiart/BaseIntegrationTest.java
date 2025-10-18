@@ -1,5 +1,6 @@
 package com.giri.aiart;
 
+import com.giri.aiart.config.TestcontainersConfig;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
