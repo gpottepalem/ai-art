@@ -1,5 +1,5 @@
 # 🎨 ai-art
-Lets explore what AI can bring in to an Artist's World.
+Lets explore what Spring AI can bring into an Artist's Tech World.
 
 Check [Wiki Pages](https://github.com/gpottepalem/ai-art/wiki) for additional details.
 
@@ -37,6 +37,7 @@ brew install graphviz
  * When you open any [.puml](./target/spring-modulith-docs/components.puml) file generated in IntelliJ, the plugin shows
    it as PlantUML diagram.
 
+![Main Mdolues](./ai-art-modules.png)
 ### 🌐 [API Docs](https://smart-doc-group.github.io/)
 * API documentation is generated using [smart-doc](https://smart-doc-group.github.io/) generated under `src/main/resources/static/doc`  
 * Check this link: [http://localhost:63342/ai-art/static/doc/api.html](http://localhost:63342/ai-art/static/doc/api.html)
@@ -82,27 +83,27 @@ http --stream :8080/art-master/stream  # streaming
 ### 🌐 `/art-master` end-point
 [Check Actuator Mappings](http://localhost:8080/actuator/mappings) and look for `/art-master`  
 
-* 🌐 `/art-master` (default)
+* `/art-master` (default)
   * HTTPie : `http :8080/art-master`
   * Curl : `http://localhost:8080/art-master`
   * Browser : http://localhost:8080/art-master
-* 🌐 `/art-master/stream` (default)
+* `/art-master/stream` (default)
   * HTTPie : `http --stream :8080/art-master/stream`
   * Curl : `curl -N "http://localhost:8080/master/stream"`
   * Browser : http://localhost:8080/art-master/stream
-* 🌐 `/art-master/stream` (with request parameters)
+* `/art-master/stream` (with request parameters)
   * HTTPie : `http --stream :8080/art-master/stream media=='WATERCOLOR' object=='Human Face'`
   * Curl : `curl -N "http://localhost:8080/art-master/stream?media=WATERCOLOR&object=Human%20Face"
   * Browser : http://localhost:8080/art-master/stream?media=WATERCOLOR&object=Human%20Face
-* 🌐 `/art-master/words/stream` (default)
+* `/art-master/words/stream` (default)
   * HTTPie : `http --stream :8080/art-master/words/stream`
   * Curl : `curl -N "http://localhost:8080/art-master/words/stream"`
   * Browser : http://localhost:8080/art-master/words/stream
   
 ### 🌐 `/art` end-point [TODO]
-* 🌐 http :8080/art (http://localhost:8080/ai/art)
-* 🌐 http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
-* 🌐 http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)
+* http :8080/art (http://localhost:8080/ai/art)
+* http --stream :8080/ai/joke/stream (http://localhost:8080/ai/joke/stream)  
+* http --stream :8080/ai/joke/stream/json (http://localhost:8080/ai/joke/stream/json)
 
 ## 🔦 [Observability](https://docs.spring.io/spring-ai/reference/observability/index.html)
 
