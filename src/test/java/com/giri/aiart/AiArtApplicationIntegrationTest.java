@@ -1,7 +1,7 @@
 package com.giri.aiart;
 
 import com.giri.aiart.chat.ArtMasterService;
-import com.giri.aiart.modules.artist.service.ArtistService;
+import com.giri.aiart.modules.artist.ArtistService;
 import com.giri.aiart.shared.domain.type.ArtMedia;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,19 +1,20 @@
-package com.giri.aiart.modules.artist.web;
+package com.giri.aiart.modules.artist;
 
 import com.giri.aiart.shared.domain.Artist;
-import com.giri.aiart.modules.artist.service.ArtistService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-/// TODO
+/// REST API for {@link Artist}
 ///
 /// @author Giri Pottepalem
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/artists")
-@AllArgsConstructor
 public class ArtistController {
     private final ArtistService service;
 

@@ -3,6 +3,21 @@ spring:
     activate:
       on-profile: test
 
+#  ai:
+#    version: "1.1.0-M3"
+#    model:
+#      chat: ollama
+#    ollama:
+#      base-url: http://localhost:11434   # doesn’t matter if mocked
+#      chat:
+#        options:
+#          model: llava:latest
+#          temperature: 0.2
+#      init:
+#        pull-model-strategy: always
+#        timeout: 60s
+#        max-retries: 1
+
   datasource:
 #    url: jdbc:tc:pgvector/pgvector:pg18:///ai-art-test?TC_TMPFS=/testtmpfs:rw
     # jdbc:tc:postgres:18:///ai-art-test → tells Testcontainers to start a PostgreSQL 18 container
@@ -18,11 +33,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-    show-sql: true
+        type:
+          descriptor.sql.BasicBinder: TRACE
 
   sql:
     init:

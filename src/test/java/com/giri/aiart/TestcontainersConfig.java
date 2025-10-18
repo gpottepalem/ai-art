@@ -61,4 +61,22 @@ public class TestcontainersConfig {
     public OllamaApi ollamaApi() {
         return Mockito.mock(OllamaApi.class);
     }
+
+    /// Ollama container for integration tests
+//    @Bean(destroyMethod = "stop")
+//    public GenericContainer<?> ollamaContainer() {
+//        var container = new GenericContainer<>(DockerImageName.parse("ollama/ollama:latest"))
+//            .withExposedPorts(11434)
+//            .waitingFor(Wait.forListeningPort())
+//            .withCommand("serve"); // starts the Ollama server
+//        container.start();
+//        log.info("{} Started Ollama container on {}:{}", LogIcons.STARTUP,
+//            container.getHost(), container.getMappedPort(11434));
+//
+//        // Set system property for Spring AI to connect to Testcontainers Ollama
+//        System.setProperty("spring.ai.ollama.base-url",
+//            "http://" + container.getHost() + ":" + container.getMappedPort(11434));
+//
+//        return container;
+//    }
 }

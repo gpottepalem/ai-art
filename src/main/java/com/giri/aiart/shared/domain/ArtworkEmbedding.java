@@ -1,5 +1,6 @@
 package com.giri.aiart.shared.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.giri.aiart.shared.domain.type.EmbeddingStatusType;
 import com.giri.aiart.shared.domain.type.EmbeddingType;
 import jakarta.persistence.*;
@@ -30,11 +31,13 @@ public class ArtworkEmbedding extends BaseAuditEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "artwork_id",  nullable = false)
     @ToString.Exclude // avoid recursion
+    @JsonIgnore // ❌ Skip back reference to prevent infinite recursion,
     private Artwork artwork;
 
     @Column(name = "type", nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Builder.Default
     @ToString.Include
     private EmbeddingType type = EmbeddingType.IMAGE; // default
 
@@ -50,7 +53,8 @@ public class ArtworkEmbedding extends BaseAuditEntity {
     @Column(name = "embedding", columnDefinition = "vector(1536)", nullable = false)
 //    @JdbcTypeCode(value = SqlTypes.VECTOR)
     @Type(value = FloatArrayType.class)
-    private float[] embedding;
+    @Builder.Default
+    private float[] embedding = new float[0];
 
 /*
  TODO [Reverse Engineering] create field to map the 'embedding' column

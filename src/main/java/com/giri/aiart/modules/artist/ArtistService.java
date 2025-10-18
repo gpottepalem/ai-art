@@ -1,4 +1,4 @@
-package com.giri.aiart.modules.artist.service;
+package com.giri.aiart.modules.artist;
 
 import com.giri.aiart.shared.domain.Artist;
 import com.giri.aiart.shared.persistence.ArtistRepository;

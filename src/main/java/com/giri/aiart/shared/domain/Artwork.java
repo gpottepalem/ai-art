@@ -1,5 +1,6 @@
 package com.giri.aiart.shared.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.giri.aiart.shared.domain.type.ArtType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,6 +30,7 @@ import java.util.UUID;
 public class Artwork extends BaseAuditEntity{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "artist_id", nullable = false)
+    @JsonIgnore // ❌ Skip back reference to prevent infinite recursion,
     private Artist artist;
 
     @Column(name = "title", length = Integer.MAX_VALUE)
@@ -43,7 +45,8 @@ public class Artwork extends BaseAuditEntity{
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM) // for native PG enum type
     @ToString.Include
-    private ArtType artType;
+    @Builder.Default
+    private ArtType artType = ArtType.PAINTING; // default
 
     @Column(name = "minio_key", length = Integer.MAX_VALUE)
     @ToString.Include
