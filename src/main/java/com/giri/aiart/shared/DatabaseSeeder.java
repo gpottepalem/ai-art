@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "aiart.ingestion.enabled", havingValue = "true", matchIfMissing = true)
-public class IngestionService {
+public class DatabaseSeeder {
     private static final String SEED_DATA_JSON_FILE = "seed/sample-artists.json";
 
     private final ArtistRepository artistRepository;

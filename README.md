@@ -1,6 +1,24 @@
 # 🎨 ai-art
 Lets explore what Spring AI can bring into an Artist's Tech World.
 
+## 🏗️ Architecture Summary
+
+AI-Art is built on a modular Spring Boot foundation that integrates **Spring AI**, **Ollama**, **MinIO**, and **PostgreSQL (pgvector)**. 
+It blends these technologies to power multimodal creativity. It processes uploaded artwork images, generates rich AI-driven descriptions, 
+and converts them into **vector embeddings** for intelligent search and discovery.
+Each module — **Media**, **Embeddings**, **Ingestion**, and **Shared** — plays a distinct role in analyzing, describing, 
+and vectorizing artworks for intelligent storage and retrieval.
+
+**Core Modules:**
+- **🎨 Media Module** — Multimodal analysis (image + text) - Converts visual content into rich textual or semantic descriptions using multimodal models (e.g., Llava, Qwen, Gemini).
+- **🧠 Embeddings Module** — Embedding generation using Spring AI’s `EmbeddingModel` - Generates and persists vector embeddings using Spring AI’s provider-agnostic `EmbeddingModel`.
+- **📥 Ingestion Module** — Orchestrates image upload → description → embedding → persistence - Handles image uploads, metadata persistence, and embedding generation.
+- 🧩 **Database Seeder** — Initializes artists, artworks, and embeddings for development.
+- **🧩 Shared Module** — Common domain models, enums, and utility classes across the system.
+- 💬 **Prompt System** — Centralizes prompt templates and supports multimodal tuning.
+
+📘 **Learn more:** See the detailed [Architecture.md](docs/Architecture.md) for a deep dive into components, data flow, and testing strategy.
+
 Check [Wiki Pages](https://github.com/gpottepalem/ai-art/wiki) for additional details.
 
 ## 🛠️ Installation

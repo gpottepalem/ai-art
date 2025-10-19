@@ -6,6 +6,7 @@ import lombok.ToString;
 
 /// An enumeration of Art Media
 /// Holds {@link ArtType} that the media belongs to
+///
 /// @author Giri Pottepalem
 @Getter
 @ToString

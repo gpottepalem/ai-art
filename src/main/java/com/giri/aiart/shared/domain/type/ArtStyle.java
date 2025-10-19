@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /// An enumeration of Art Style
+///
 /// @author Giri Pottepalem
 @Getter
 @ToString

@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.springframework.modulith.NamedInterface;
 
 /// An enumeration of Art Type
+///
 /// @author Giri Pottepalem
 //@NamedInterface
 @Getter

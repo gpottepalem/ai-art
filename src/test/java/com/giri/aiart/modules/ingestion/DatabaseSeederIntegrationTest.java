@@ -36,7 +36,7 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 @Transactional
 @Import(TestcontainersConfig.class)
-public class IngestionServiceIntegrationTest {
+public class DatabaseSeederIntegrationTest {
     @Autowired
     private IngestionService ingestionService;
 
