@@ -3,8 +3,7 @@ app:
   version: "@project.version@"
 
 aiart:
-  ingestion:
-    enabled: true
+  data.seeder.enabled: true
 
 spring:
   application:

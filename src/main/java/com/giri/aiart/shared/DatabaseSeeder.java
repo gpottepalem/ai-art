@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /// Seeds initial data into the database if no artists exist.
-/// TODO - RETIRE in favor of modules/ingestion/IngestionService in shared
+///
 /// @author Giri Pottepalem
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "aiart.ingestion.enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = "aiart.data.seeder.enabled", havingValue = "true", matchIfMissing = true)
 public class DatabaseSeeder {
     private static final String SEED_DATA_JSON_FILE = "seed/sample-artists.json";
 
