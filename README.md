@@ -38,6 +38,7 @@ brew install graphviz
    it as PlantUML diagram.
 
 ![Main Mdolues](./ai-art-modules.png)
+
 ### 🌐 [API Docs](https://smart-doc-group.github.io/)
 * API documentation is generated using [smart-doc](https://smart-doc-group.github.io/) generated under `src/main/resources/static/doc`  
 * Check this link: [http://localhost:63342/ai-art/static/doc/api.html](http://localhost:63342/ai-art/static/doc/api.html)

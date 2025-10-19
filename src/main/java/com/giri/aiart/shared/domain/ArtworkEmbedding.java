@@ -3,14 +3,12 @@ package com.giri.aiart.shared.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.giri.aiart.shared.domain.type.EmbeddingStatusType;
 import com.giri.aiart.shared.domain.type.EmbeddingType;
+import io.hypersistence.utils.hibernate.type.array.FloatArrayType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
-import io.hypersistence.utils.hibernate.type.array.FloatArrayType;
-
-import java.io.Serial;
 
 /// Persistable entity
 ///
