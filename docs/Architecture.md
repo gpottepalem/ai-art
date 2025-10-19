@@ -159,14 +159,13 @@ sequenceDiagram
 - Security & Privacy: Artist-owned artworks are stored in private MinIO buckets by default; access control can be enforced via pre-signed URLs and RBAC.
 
 ## 8. References
-- [Spring AI Documentation]()
-- [Ollama: Local model runtime]()
-- [pgvector Extension]()
-- [MinIO Documentation]()
-- [Testcontainers]()
+- [Spring AI Documentation](https://docs.spring.io/spring-ai/reference/)
+- [Ollama: Local model runtime](https://ollama.com)
+- [pgvector Extension](https://github.com/pgvector/pgvector?utm_source=chatgpt.com)
+- [MinIO Documentation](https://min.io/docs)
+- [Testcontainers](https://www.testcontainers.org/)
 
 ---
-**Last Updated:** October 2025  
+🧩 _Last Updated: October 2025_  
 **Author:** Giri Pottepalem  
 **Collaborator:** AI Architectural Assistant
-Produce Mermaid
