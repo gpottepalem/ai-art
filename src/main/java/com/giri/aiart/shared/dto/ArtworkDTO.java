@@ -10,13 +10,15 @@ import java.util.UUID;
 /// DTO for {@link Artwork} entity — includes selected attributes and embedding summary
 ///
 /// @author Giri Pottepalem
-public record ArtworkDTO(UUID id,
-                         String title,
-                         String description,
-                         ArtType artType,
-                         String minioKey,
-                         UUID artistId,
-                         List<ArtworkEmbeddingDTO> embeddings) {
+public record ArtworkDTO(
+    UUID id,
+    String title,
+    String description,
+    ArtType artType,
+    String minioKey,
+    UUID artistId,
+    List<ArtworkEmbeddingDTO> embeddings
+) {
     public static ArtworkDTO fromEntity(@NonNull Artwork artwork) {
         return new ArtworkDTO(
             artwork.getId(),

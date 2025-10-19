@@ -81,7 +81,7 @@ public class IngestionControllerMockMvcIntegrationTest {
 
         // when: performing multipart POST to controller
         mockMvc.perform(
-            MockMvcRequestBuilders.multipart("/api/v1/ingest")
+            MockMvcRequestBuilders.multipart("/api/v1/ingest/%s".formatted(artist.getId()))
                 .file(mockImage)
                 .param("artistId", artist.getId().toString())
                 .param("title", "Test Artwork")

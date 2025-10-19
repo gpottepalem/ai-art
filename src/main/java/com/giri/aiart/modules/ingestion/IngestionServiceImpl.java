@@ -21,8 +21,23 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
-/// A concrete implementation of {@link IngestionService}
-/// Ingests artworks, generates embeddings, and stores images.
+/// **Implementation** of the {@link IngestionService} responsible for orchestrating
+/// the complete artwork ingestion workflow.
+///
+/// Combines several modules:
+/// - **MinIO Storage** → securely uploads and stores artwork images
+/// - **MediaService** → uses AI to describe visual content
+/// - **EmbeddingGeneratorService** → creates vector embeddings from AI-generated text
+/// - **JPA Repositories** → persists artists, artworks, and embeddings into PostgreSQL (with pgvector)
+///
+/// **Workflow Overview:**
+/// 1. Retrieve the `Artist` entity for the given `artistId`
+/// 2. Upload the artwork image to MinIO storage
+/// 3. Use the `MediaService` to generate a textual description of the image
+/// 4. Generate embeddings using Spring AI’s `EmbeddingModel` through `EmbeddingGeneratorService`
+/// 5. Persist the `Artwork` and its embeddings in the relational and vector stores
+///
+/// All operations are executed within a transactional boundary to ensure consistency.
 ///
 /// @author Giri Pottepalem
 @Slf4j
@@ -43,16 +58,17 @@ public class IngestionServiceImpl implements IngestionService {
                                  @NonNull String description,
                                  @NonNull ArtType artType,
                                  @NonNull MultipartFile imageFile) throws Exception {
+        log.info("{} Starting ingestion for artistId={}, title={}", LogIcons.STARTUP, artistId, title);
+        // 1. Validate artist
         Artist artist = artistRepository.findById(artistId)
             .orElseThrow(() -> new IllegalArgumentException(String.format("Artist with id %s not found", artistId)));
 
+        // 2. Upload image to MinIO
         log.info("{} Uploading image: {} to MinIO...", LogIcons.ART_WORK, imageFile);
         String minioKey = minioStorageService.uploadFile(imageFile, "artworks/");
         log.info("{} Uploaded image to MinIO: {}", LogIcons.ART_WORK, minioKey);
 
-        ArtworkEmbedding artworkEmbedding = embeddingGeneratorService.generateEmbedding(imageFile.getResource(), EmbeddingType.IMAGE);
-        log.info("{} Generated embeddings for artwork...", LogIcons.OLLAMA);
-
+        // 3. Build Artwork entity
         Artwork artwork = Artwork.builder()
             .artist(artist)
             .title(title)
@@ -61,12 +77,17 @@ public class IngestionServiceImpl implements IngestionService {
             .minioKey(minioKey)
             .build();
 
+        // 4. Generate embeddings using AI
+        ArtworkEmbedding artworkEmbedding = embeddingGeneratorService.generateEmbedding(imageFile.getResource(), EmbeddingType.IMAGE);
+        log.info("{} Generated embeddings for artwork...", LogIcons.OLLAMA);
+
+        // 5. Persist Artwork and embeddings
         artwork.addEmbeddings(List.of(artworkEmbedding));
 
         Artwork savedArtwork = artWorkRepository.save(artwork);
-        log.info("{} Artwork set with minioKey and embeddings persisted: {} (id={})", LogIcons.SUCCESS, savedArtwork.getTitle(), savedArtwork.getId());
+        log.info("{} Artwork (id={}, title={}) set with minioKey({}) and embeddings persisted...",
+            LogIcons.SUCCESS, savedArtwork.getId(), savedArtwork.getTitle(), minioKey);
 
-        log.info("{} Successfully ingested ArtWork id: {}...", LogIcons.ART_WORK, savedArtwork.getId());
         return savedArtwork;
     }
 }

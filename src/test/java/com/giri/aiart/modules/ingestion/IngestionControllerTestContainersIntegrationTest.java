@@ -120,7 +120,7 @@ public class IngestionControllerTestContainersIntegrationTest {
 
         // 🌐 Perform REST call
         ResponseEntity<ArtworkDTO> response = restTemplate.exchange(
-            "http://localhost:" + port + "/api/v1/ingest",
+            "http://localhost:%s/api/v1/ingest/%s".formatted(port, artistId),
             HttpMethod.POST,
             requestEntity,
             ArtworkDTO.class
