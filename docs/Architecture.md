@@ -89,17 +89,19 @@ spring:
 ```
 
 ## 4. Data Flow
-[ Artist Uploads Image ]  
-↓  
-[ IngestionController ]  
-↓  
-[ MinIO Upload ] → [ File URL stored in Artwork entity ]  
-↓  
-[ MediaService.analyzeMedia() ] → AI-generated textual description  
-↓  
-[ EmbeddingGeneratorService ] → Vector embedding generation  
-↓  
-[ Artwork + Embeddings persisted in PostgreSQL (pgvector) ]  
+```text
+[ Artist Uploads Image ]
+          ↓
+[ IngestionController ]
+          ↓
+[ MinIO Upload ] → [ File URL stored in Artwork entity ]
+          ↓
+[ MediaService.analyzeMedia() ] → AI-generated textual description
+          ↓
+[ EmbeddingGeneratorService ] → Vector embedding generation
+          ↓
+[ Artwork + Embeddings persisted in PostgreSQL (pgvector) ]
+``` 
 
 ### 🧜‍♀️🧜‍♂️ Sequence
 sequenceDiagram
@@ -111,6 +113,14 @@ participant EmbeddingService
 participant Postgres
 
 ```mermaid
+sequenceDiagram
+    participant User
+    participant Controller
+    participant MinIO
+    participant MediaService
+    participant EmbeddingService
+    participant Postgres
+
     User->>Controller: POST /api/v1/ingest (image + metadata)
     Controller->>MinIO: upload image
     MinIO-->>Controller: file-url
