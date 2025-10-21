@@ -14,9 +14,9 @@ import org.hibernate.type.SqlTypes;
 ///
 /// @author Giri Pottepalem
 @Entity
-@Table(name = "artwork_embeddings",
+@Table(name = "artwork_embedding",
     indexes = {
-        @Index(name = "idx_artwork_embeddings_artwork_id", columnList = "artwork_id")
+        @Index(name = "idx_artwork_embedding_artwork_id", columnList = "artwork_id")
     }
 )
 

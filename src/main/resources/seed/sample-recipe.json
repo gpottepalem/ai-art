@@ -1,0 +1,9 @@
+{
+  "name": "Artwork Description Recipe",
+  "title": "V2 - Tuning done by Giri on 2025-10-19",
+  "status": "ACTIVE",
+  "model": "llava:latest",
+  "temperature": 0.2,
+  "parametersJson": "[{\"model\":\"llava:latest\",\"temperature\":\"0.2\"}]",
+  "recipeTemplate": "You are an art analyst AI. Describe the uploaded artwork ...",
+}

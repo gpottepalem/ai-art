@@ -16,9 +16,9 @@ import java.util.UUID;
 ///
 /// @author Giri Pottepalem
 @Entity
-@Table(name = "artworks",
+@Table(name = "artwork",
     indexes = {
-        @Index(name = "idx_artworks_artist_id", columnList = "artist_id")
+        @Index(name = "idx_artwork_artist_id", columnList = "artist_id")
     }
 )
 

@@ -11,7 +11,7 @@ import java.util.List;
 ///
 /// @author Giri Pottepalem
 @Entity
-@Table(name = "artists")
+@Table(name = "artist")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
