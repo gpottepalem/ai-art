@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Generate-artwork-description",
+    "title": "V1 - Initial version for image-to-description",
+    "status": "DRAFT",
+    "modelParameters": {
+      "model": "llava:latest",
+      "temperature": 0.2,
+      "maxTokens": 512,
+      "responseFormat": "text"
+    },
+    "recipeTemplate": "You are an expert art critic. Analyze the provided artwork image carefully and describe it in vivid, emotive language.\n\nInclude:\n- Artistic style and composition\n- Dominant colors and mood\n- Subject matter\n- Medium or technique if identifiable\n\nRespond in a concise paragraph suitable for an online art gallery description."
+  },
+  {
+    "name": "Generate-artist-style-summary",
+    "title": "V1 - Summarize recurring style patterns from multiple artworks",
+    "status": "ARCHIVED",
+    "modelParameters": {
+      "model": "llama3.2:11b",
+      "temperature": 0.3,
+      "maxTokens": 700,
+      "responseFormat": "markdown"
+    },
+    "recipeTemplate": "You are an art historian analyzing an artist's body of work. Based on the set of artworks provided, summarize the artist’s unique style.\n\nConsider:\n- Common color palettes\n- Brushstroke or compositional tendencies\n- Emotional tone\n- Any recurring themes, symbols, or motifs\n\nProvide the analysis as a short essay in **Markdown** format."
+  },
+  {
+    "name": "Generate-structured-metadata-extraction",
+    "title": "V1 - Extract structured metadata from artwork image",
+    "status": "FINAL",
+    "modelParameters": {
+      "model": "qwen2.5vl",
+      "temperature": 0.1,
+      "maxTokens": 600,
+      "responseFormat": "json"
+    },
+    "recipeTemplate": "You are an image analysis assistant. Given an artwork, extract structured metadata and respond strictly in the following JSON schema:\n```json\n{\n  \"dominant_colors\": [\"string\"],\n  \"medium\": \"string\",\n  \"subject_matter\": \"string\",\n  \"style\": \"string\",\n  \"mood\": \"string\"\n}\n```\n\nUse only lowercase strings and avoid speculative or ambiguous values."
+  }
+]

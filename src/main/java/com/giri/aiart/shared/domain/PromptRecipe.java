@@ -36,12 +36,12 @@ public class PromptRecipe extends BaseAuditEntity {
     private RecipeStatus status = RecipeStatus.DRAFT;
 
     /// JSON configuration text for model, temperature, etc.
-    @Lob
+    /// Structured model configuration stored as JSONB.
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private String parameters;
+    private RecipeModelParameters modelParameters;
 
     /// Long recipe text — includes system instructions, markup, or structured response hints
-    @Lob
     @Column(columnDefinition = "text")
     private String recipeTemplate;
 }

@@ -3,7 +3,9 @@ package com.giri.aiart.shared;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.giri.aiart.shared.domain.Artist;
+import com.giri.aiart.shared.domain.PromptRecipe;
 import com.giri.aiart.shared.persistence.ArtistRepository;
+import com.giri.aiart.shared.persistence.PromptRecipeRepository;
 import com.giri.aiart.shared.util.ArtistsUtil;
 import com.giri.aiart.shared.util.EmbeddingUtils;
 import com.giri.aiart.shared.util.LogIcons;
@@ -29,9 +31,11 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @ConditionalOnProperty(value = "aiart.data.seeder.enabled", havingValue = "true", matchIfMissing = true)
 public class DatabaseSeeder {
-    private static final String SEED_DATA_JSON_FILE = "seed/sample-artists.json";
+    private static final String ARTISTS_SEED_DATA_JSON_FILE = "seed/sample-artists.json";
+    private static final String RECIPES_SEED_DATA_JSON_FILE = "seed/sample-recipes.json";
 
     private final ArtistRepository artistRepository;
+    private final PromptRecipeRepository promptRecipeRepository;
     private final Flyway flyway;
     private final ObjectMapper objectMapper;
 
@@ -39,7 +43,8 @@ public class DatabaseSeeder {
     @PostConstruct
     public void init() {
         waitForFlywayMigrations();
-        seedDataIfEmpty();
+        seedArtistDataIfEmpty();
+        seedRecipeDataIfEmpty();
     }
 
     /// Waits until Flyway has completed all migrations.
@@ -49,7 +54,7 @@ public class DatabaseSeeder {
         while (retries-- > 0) {
             try {
                 flyway.info(); // If Flyway is ready, this won't throw
-                log.info("{} Flyway is ready. Proceeding with ingestion...", LogIcons.SUCCESS);
+                log.info("{} Flyway is ready. Proceeding with seeding...", LogIcons.SUCCESS);
                 return;
             } catch (Exception e) {
                 log.warn("{} Flyway not ready yet ({}). Retrying in 3s...", LogIcons.WARNING, e.getMessage());
@@ -60,22 +65,22 @@ public class DatabaseSeeder {
                 }
             }
         }
-        log.error("{} Flyway did not become ready after waiting. Skipping ingestion.", LogIcons.ERROR);
+        log.error("{} Flyway did not become ready after waiting. Skipping seeding.", LogIcons.ERROR);
     }
 
-    /// Checks if tables are empty and seeds data (artists) if needed.
+    /// Checks if artists are empty and seeds data (artists) if needed.
     @Transactional
-    public void seedDataIfEmpty() {
+    public void seedArtistDataIfEmpty() {
         try {
             long artistCount = artistRepository.count();
             if (artistCount > 0) {
-                log.info("{} Artists already exist in DB ({}). Skipping ingestion.", LogIcons.ARTIST, artistCount);
+                log.info("{} Artists already exist in DB ({}). Skipping seeding.", LogIcons.ARTIST, artistCount);
                 return;
             }
 
-            log.info("{} No artists found — ingesting seed data...", LogIcons.DATA);
+            log.info("{} No artists found — seeding data...", LogIcons.DATA);
 
-            var artists = loadSeedDataFromJsonFile();
+            var artists = loadArtistsSeedDataFromJsonFile();
             // set entities references
             artists.forEach(artist -> {
                 artist.getArtworks().forEach(artwork -> {
@@ -88,25 +93,57 @@ public class DatabaseSeeder {
                 artist.addArtWorks(artist.getArtworks()); // ass artworks to artist with proper back reference
             });
             artistRepository.saveAll(artists);
-
-            log.info("{} Seed data created successfully!", LogIcons.SEED);
-            log.info("{} Seeded {} artists and their artworks successfully.", LogIcons.AI, artists.size());
+            log.info("{} Seeded {} artists and their artworks successfully.", LogIcons.SEED, artists.size());
         } catch (DataAccessException ex) {
-            log.error("{} Database not ready or migrations not complete. Skipping ingestion.", LogIcons.ERROR, ex);
+            log.error("{} Database not ready or migrations not complete. Skipping seeding.", LogIcons.ERROR, ex);
         } catch (Exception ex) {
-            log.error("{} Failed to ingest seed data", LogIcons.ERROR, ex);
+            log.error("{} Failed to seed data", LogIcons.ERROR, ex);
         }
     }
 
-     /// Loads artist data either from JSON or utility.
-    private List<Artist> loadSeedDataFromJsonFile() {
-        try (InputStream inputStream = new ClassPathResource(SEED_DATA_JSON_FILE).getInputStream()) {
-            log.info("{} Loading artists from JSON file...", LogIcons.FILE);
+    /// Checks if recipes are empty and seeds data (artists) if needed.
+    @Transactional
+    public void seedRecipeDataIfEmpty() {
+        try {
+            long recipesCount = promptRecipeRepository.count();
+            if (recipesCount > 0) {
+                log.info("{} recipes already exist in DB ({}). Skipping seeding.", LogIcons.ARTIST, recipesCount);
+                return;
+            }
+
+            log.info("{} No recipes found — seeding data...", LogIcons.DATA);
+
+            var recipes = loadRecipesSeedDataFromJsonFile();
+            promptRecipeRepository.saveAll(recipes);
+
+            log.info("{} Seeded {} recipes and their artworks successfully.", LogIcons.SEED, recipes.size());
+        } catch (DataAccessException ex) {
+            log.error("{} Database not ready or migrations not complete. Skipping seeding.", LogIcons.ERROR, ex);
+        } catch (Exception ex) {
+            log.error("{} Failed to seed data", LogIcons.ERROR, ex);
+        }
+    }
+
+     /// Loads artist data either from sample seed JSON or utility.
+    private List<Artist> loadArtistsSeedDataFromJsonFile() {
+        try (InputStream inputStream = new ClassPathResource(ARTISTS_SEED_DATA_JSON_FILE).getInputStream()) {
+            log.info("{} Loading artists from JSON file: {} ...", LogIcons.FILE, ARTISTS_SEED_DATA_JSON_FILE);
 //            return List.of(objectMapper.readValue(inputStream, Artist[].class));
             return objectMapper.readValue(inputStream, new TypeReference<>() {});
-        } catch (Exception e) {
-            log.warn("{} Could not load seed_artists.json, using programmatic fallback.", LogIcons.WARNING);
+        } catch (Exception ex) {
+            log.warn("{} Could not load {}, using programmatic fallback.", LogIcons.WARNING,  ARTISTS_SEED_DATA_JSON_FILE, ex);
             return ArtistsUtil.buildArtists(1);
+        }
+    }
+
+    /// Loads recipes from sample seed JSON file
+    private List<PromptRecipe> loadRecipesSeedDataFromJsonFile() {
+        try (InputStream inputStream = new ClassPathResource(RECIPES_SEED_DATA_JSON_FILE).getInputStream()) {
+            log.info("{} Loading recipes from JSON file: {} ...", LogIcons.FILE,  RECIPES_SEED_DATA_JSON_FILE);
+            return objectMapper.readValue(inputStream, new TypeReference<>() {});
+        } catch(Exception ex) {
+            log.warn("{} Could not load {}, NO programmatic fallback.", LogIcons.WARNING,   RECIPES_SEED_DATA_JSON_FILE, ex);
+            return List.of();
         }
     }
 

@@ -5,7 +5,7 @@
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'recipe_status') THEN
-CREATE TYPE recipe_status AS ENUM ('DRAFT', 'ACTIVE', 'ARCHIVED');
+CREATE TYPE recipe_status AS ENUM ('DRAFT', 'FINAL', 'ARCHIVED');
 END IF;
 END$$;
 
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS prompt_recipe (
      name VARCHAR(255) NOT NULL,
      title VARCHAR(255) NOT NULL,
      status recipe_status NOT NULL DEFAULT 'DRAFT',
-     parameters JSONB,
+     model_parameters JSONB,
      recipe_template TEXT
 );
 
