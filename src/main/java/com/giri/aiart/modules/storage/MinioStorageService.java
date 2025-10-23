@@ -4,6 +4,7 @@ import com.giri.aiart.config.MinioProperties;
 import com.giri.aiart.shared.util.LogIcons;
 import io.minio.*;
 import io.minio.errors.MinioException;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +40,17 @@ public class MinioStorageService implements StorageService {
     MinioStorageService(MinioClient minioClient, MinioProperties minioProperties) {
         this.minioClient = minioClient;
         this.bucketName = minioProperties.getBucketName();
+        log.info("{} MinIO Properties loaded: endpoint={}, bucketName={}", LogIcons.TEXT, minioProperties.getEndpoint(), bucketName);
+    }
+
+    @PostConstruct
+    public void verifyConnection() {
+        try {
+            var buckets = minioClient.listBuckets();
+            log.info("{} Connected to MinIO, buckets: {}...", LogIcons.SUCCESS, buckets);
+        } catch (Exception e) {
+            log.error("{} Could not connect to MinIO...", LogIcons.ERROR, e);
+        }
     }
 
     @Override

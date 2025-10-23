@@ -69,7 +69,7 @@ minio:
   accessKey: minioadmin
   secretKey: minioadmin
   secure: false
-  bucket-name: commons
+  bucket-name: ai-art
   image-size: 10485760   # 10 MB
   file-size: 1073741824  # 1 GB
 

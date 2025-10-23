@@ -54,6 +54,11 @@ public class IngestionControllerTestContainersIntegrationTest {
 
     private UUID artistId;
 
+    static {
+        var minioRunningState = TestcontainersConfig.MINIO.isRunning(); // ensure it starts
+        log.info("Minio running : {}", minioRunningState);
+    }
+
     /// Creates and persists a dummy artist before each test.
     @BeforeEach
     void setupAndSaveArtist() {
