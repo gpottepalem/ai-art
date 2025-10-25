@@ -14,6 +14,7 @@ import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.core.io.Resource;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,11 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @Service
+@Retryable( // all public methods are retryable
+    retryFor = { Exception.class },
+    maxAttempts = 3,
+    backoff = @Backoff(delay = 2000,  multiplier = 2)
+)
 public class MediaServiceImpl implements MediaService {
     private final ChatClientWithMeta chatClientWithMeta;
     private final ChatClientWithMeta secondaryChatClient;
@@ -62,7 +68,6 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    @Retryable(retryFor = {Exception.class}, maxAttempts = 3)
     public String analyzeMedia(Resource mediaResource, PromptType promptType) throws IOException {
         log.info("{} Analyzing mediaResource for prompt: {}", LogIcons.ANALYSIS, promptType.name());
         ModelUtils.logModelName(chatClientWithMeta.modelName());
@@ -74,31 +79,15 @@ public class MediaServiceImpl implements MediaService {
             .content();
     }
 
+    /// Recover from retry failures by going to secondary/tertiary models
     @Recover
-    public String recoverAnalyzeMedia(Exception exception, Resource mediaResource, PromptType promptType) {
-        log.warn("{} Primary LLM failure, error : {}", LogIcons.WARNING, exception.getMessage());
-        log.info("{} Attempting to process prompt '{}' with secondary LLM", LogIcons.AI, promptType);
-        ModelUtils.logModelName(secondaryChatClient.modelName());
-
-        try {
-            Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
-            return secondaryChatClient.chatClient().prompt(prompt)
-                .advisors(simpleLoggerAdvisor)
-                .call()
-                .content();
-        } catch (Exception ex) {
-            log.warn("{} Secondary LLM failure, error : {}", LogIcons.WARNING, ex.getMessage());
-            log.info("{} Attempting to process prompt '{}' with tertiary LLM", LogIcons.AI, promptType);
-            ModelUtils.logModelName(tertiaryChatClient.modelName());
-
-            Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
-            return tertiaryChatClient.chatClient().prompt(prompt)
-                .advisors(simpleLoggerAdvisor)
-                .call()
-                .content();
-        }
+    private String recoverAnalyzeMedia(Exception ex, Resource mediaResource, PromptType promptType) {
+        return ModelFallbackUtil.executeFallback(
+            ex, promptType, mediaResource, simpleLoggerAdvisor, secondaryChatClient, tertiaryChatClient
+        );
     }
 
+    /// TODO revisit: image -> text extraction : DO WE NEED THIS ?
     @Override
     public Flux<String> extractText(String mediaFileName) throws IOException {
         var systemMessage = new SystemMessage("""

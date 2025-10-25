@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.modulith.Modulith;
+import org.springframework.retry.annotation.EnableRetry;
 
 /// The main Spring Boot application.
 /// @author Giri Pottepalem
@@ -24,6 +25,7 @@ import org.springframework.modulith.Modulith;
 @SpringBootApplication
 @EnableConfigurationProperties(MinioProperties.class)
 @ImportAutoConfiguration(OllamaApiAutoConfiguration.class) // 1.1.0-M3
+@EnableRetry
 public class AiArtApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AiArtApplication.class, args);
