@@ -1,4 +1,4 @@
-# 🎨 ai-art
+# 🎨 AI Art
 Lets explore what Spring AI can bring into an Artist's Tech World.
 
 ## 🏗️ Architecture Summary
@@ -17,18 +17,18 @@ and vectorizing artworks for intelligent storage and retrieval.
 - **🧩 Shared Module** — Common domain models, enums, and utility classes across the system.
 - 💬 **Prompt System** — Centralizes prompt templates and supports multimodal tuning.
 
-📘 **Learn more:** See the detailed [Architecture.md](docs/Architecture.md) for a deep dive into components, data flow, and testing strategy.
-
-Check [Wiki Pages](https://github.com/gpottepalem/ai-art/wiki) for additional details.
+📘 **Learn more:**
+- See the detailed [Architecture.md](docs/Architecture.md) for a deep dive into components, data flow, and testing strategy.
+- Check [Wiki Pages](https://github.com/gpottepalem/ai-art/wiki) for additional details.
 
 ## 🛠️ Installation
 **Make sure you have**
- * ☕ [Java 25](https://www.java.com/en/) installed. [SDK-MAN](https://sdkman.io/) is your companion for managing multiple Java
+ * ☕ [Java 25](https://www.java.com/en/) installed, [SDK-MAN](https://sdkman.io/) is your best companion for managing multiple Java
   versions.
  * 🐳 [Docker](https://www.docker.com/) installed and running.
 
 ## 🚀 Getting Started
-### [Refererence - Maven Commands](./MAVEN.md)
+### [Refererence - Maven Build Commands](./MAVEN.md)
 Run the following command from the project root dir:
 ```shell
 ./mvnw spring-boot:run
