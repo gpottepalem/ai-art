@@ -2,8 +2,10 @@ package com.giri.aiart.media;
 
 import com.giri.aiart.prompt.PromptFactory;
 import com.giri.aiart.prompt.PromptType;
+import com.giri.aiart.shared.util.ChatClientWithMeta;
 import com.giri.aiart.shared.util.LogIcons;
 import com.giri.aiart.shared.util.MediaUtils;
+import com.giri.aiart.shared.util.ModelUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -12,6 +14,8 @@ import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.core.io.Resource;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -27,15 +31,19 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class MediaServiceImpl implements MediaService {
-    private final ChatClient chatClient;
+    private final ChatClientWithMeta chatClientWithMeta;
+    private final ChatClientWithMeta secondaryChatClient;
+    private final ChatClientWithMeta tertiaryChatClient;
     private final SimpleLoggerAdvisor simpleLoggerAdvisor;
 
     @Override
     public Flux<String> analyzeMediaStreaming(String mediaFileName, PromptType promptType) throws IOException {
-        log.info("{} Analyzing mediaFile:{} for generating {}", LogIcons.ANALYSIS, mediaFileName, promptType.name());
+        log.info("{} Analyzing mediaFile:{} for prompt: {}", LogIcons.ANALYSIS, mediaFileName, promptType.name());
+        ModelUtils.logModelName(chatClientWithMeta.modelName());
+
         Prompt prompt = PromptFactory.createPrompt(promptType, mediaFileName);
 
-        return chatClient.prompt(prompt)
+        return chatClientWithMeta.chatClient().prompt(prompt)
             .advisors(simpleLoggerAdvisor)
             .stream()
             .content();
@@ -43,22 +51,52 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public Flux<String> analyzeMediaStreaming(Resource mediaResource, PromptType promptType) throws IOException {
-        log.info("{} Analyzing mediaResource for generating {}", LogIcons.ANALYSIS, promptType.name());
+        log.info("{} Analyzing mediaResource for prompt: {}", LogIcons.ANALYSIS, promptType.name());
+        ModelUtils.logModelName(chatClientWithMeta.modelName());
+
         Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
-        return chatClient.prompt(prompt)
+        return chatClientWithMeta.chatClient().prompt(prompt)
             .advisors(simpleLoggerAdvisor)
             .stream()
             .content();
     }
 
     @Override
+    @Retryable(retryFor = {Exception.class}, maxAttempts = 3)
     public String analyzeMedia(Resource mediaResource, PromptType promptType) throws IOException {
-        log.info("{} Analyzing mediaResource for generating {}", LogIcons.ANALYSIS, promptType.name());
+        log.info("{} Analyzing mediaResource for prompt: {}", LogIcons.ANALYSIS, promptType.name());
+        ModelUtils.logModelName(chatClientWithMeta.modelName());
+
         Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
-        return chatClient.prompt(prompt)
+        return chatClientWithMeta.chatClient().prompt(prompt)
             .advisors(simpleLoggerAdvisor)
             .call()
             .content();
+    }
+
+    @Recover
+    public String recoverAnalyzeMedia(Exception exception, Resource mediaResource, PromptType promptType) {
+        log.warn("{} Primary LLM failure, error : {}", LogIcons.WARNING, exception.getMessage());
+        log.info("{} Attempting to process prompt '{}' with secondary LLM", LogIcons.AI, promptType);
+        ModelUtils.logModelName(secondaryChatClient.modelName());
+
+        try {
+            Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
+            return secondaryChatClient.chatClient().prompt(prompt)
+                .advisors(simpleLoggerAdvisor)
+                .call()
+                .content();
+        } catch (Exception ex) {
+            log.warn("{} Secondary LLM failure, error : {}", LogIcons.WARNING, ex.getMessage());
+            log.info("{} Attempting to process prompt '{}' with tertiary LLM", LogIcons.AI, promptType);
+            ModelUtils.logModelName(tertiaryChatClient.modelName());
+
+            Prompt prompt = PromptFactory.createPrompt(promptType, mediaResource);
+            return tertiaryChatClient.chatClient().prompt(prompt)
+                .advisors(simpleLoggerAdvisor)
+                .call()
+                .content();
+        }
     }
 
     @Override
@@ -72,7 +110,7 @@ public class MediaServiceImpl implements MediaService {
             .media(MediaUtils.toMedia(mediaFileName))
             .build();
         var prompt = new Prompt(List.of(systemMessage, userMessage));
-        return chatClient.prompt(prompt)
+        return chatClientWithMeta.chatClient().prompt(prompt)
             .advisors(simpleLoggerAdvisor)
             .stream()
             .content();

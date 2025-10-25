@@ -1,5 +1,6 @@
 package com.giri.aiart.config;
 
+import com.giri.aiart.shared.util.ChatClientWithMeta;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.api.OllamaApi;
@@ -31,8 +32,10 @@ public class ChatClientConfiguration {
     /// See Also: [Configuring Multiple LLMs in Spring AI](https://www.baeldung.com/spring-ai-configure-multiple-llms)
     @Bean
     @Primary
-    public ChatClient primaryChatClient(OllamaChatModel ollamaChatModel) {
-        return ChatClient.create(ollamaChatModel);
+    public ChatClientWithMeta primaryChatClient(OllamaChatModel ollamaChatModel) {
+        var chatClient = ChatClient.create(ollamaChatModel);
+        var modelName = ollamaChatModel.getDefaultOptions().getModel();
+        return new ChatClientWithMeta(chatClient, modelName);
     }
 
     /// Secondary ChatClient using a fallback Ollama model.
@@ -45,7 +48,7 @@ public class ChatClientConfiguration {
     /// @param secondaryModelName the name of the secondary model defined in configuration
     /// @return a ChatClient configured with the secondary model
     @Bean
-    public ChatClient secondaryChatClient(
+    public ChatClientWithMeta secondaryChatClient(
         OllamaApi ollamaApi,
         OllamaChatModel ollamaChatModel,
         @Value("${spring.ai.ollama.chat.options.secondary-model}") String secondaryModelName) {
@@ -56,7 +59,9 @@ public class ChatClientConfiguration {
             .ollamaApi(ollamaApi)
             .defaultOptions(ollamaChatOptions)
             .build();
-        return ChatClient.create(chatModel);
+
+        var chatClient = ChatClient.create(chatModel);
+        return new ChatClientWithMeta(chatClient, secondaryModelName);
     }
 
     /// Tertiary ChatClient for additional fallback or experimental models.
@@ -69,7 +74,7 @@ public class ChatClientConfiguration {
     /// @param tertiaryModelName the name of the tertiary model defined in configuration
     /// @return a ChatClient configured with the tertiary model
     @Bean
-    public ChatClient tertiaryChatClient(
+    public ChatClientWithMeta tertiaryChatClient(
         OllamaApi ollamaApi,
         OllamaChatModel ollamaChatModel,
         @Value("${spring.ai.ollama.chat.options.tertiary-model}") String tertiaryModelName) {
@@ -80,6 +85,7 @@ public class ChatClientConfiguration {
             .ollamaApi(ollamaApi)
             .defaultOptions(ollamaChatOptions)
             .build();
-        return ChatClient.create(chatModel);
+        var chatClient = ChatClient.create(chatModel);
+        return new ChatClientWithMeta(chatClient, tertiaryModelName);
     }
 }
