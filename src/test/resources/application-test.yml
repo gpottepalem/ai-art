@@ -17,6 +17,9 @@ spring:
 #        pull-model-strategy: always
 #        timeout: 60s
 #        max-retries: 1
+  ai.ollama.chat.options:
+    secondary-model: gemma3
+    tertiary-model: bakllava:latest
 
   datasource:
 #    url: jdbc:tc:pgvector/pgvector:pg18:///ai-art-test?TC_TMPFS=/testtmpfs:rw

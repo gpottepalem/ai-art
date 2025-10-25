@@ -21,10 +21,13 @@ spring:
           # model: llava:latest
           # model: gemma3
           # model: llama3.2:11b
-          model: qwen2.5vl
+          model: qwen2.5vl # default, primary
           temperature: 0.2
           # num-thread: 4
           # keep-alive: 5m
+          secondary-model: gemma3
+          tertiary-model: bakllava:latest
+
       init:
         pull-model-strategy: always
         timeout: 60s
