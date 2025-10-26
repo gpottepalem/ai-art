@@ -1,5 +1,6 @@
 # 🎨 AI Art
-Lets explore what Spring AI can bring into an Artist's Tech World.
+Let's explore what [Spring AI](https://github.com/spring-projects/spring-ai) can bring to the creative canvas of an 
+artist's tech world. This is a deep dive into Spring AI for an artist's toolkit.
 
 ## 🏗️ Architecture Summary
 
