@@ -3,16 +3,14 @@ package com.giri.aiart.config;
 import com.giri.aiart.shared.util.LogIcons;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.mockito.Mockito;
+import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.DynamicPropertyRegistrar;
-import org.springframework.web.client.DefaultResponseErrorHandler;
-import org.springframework.web.client.ResponseErrorHandler;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.ollama.OllamaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 /// Test configuration class for setting up containerized services using Testcontainers.
@@ -25,21 +23,20 @@ import org.testcontainers.utility.DockerImageName;
 /// The use of `@ServiceConnection` indicates that the container should automatically
 /// integrate with Spring Boot's service connection abstraction (e.g., for database configuration).
 ///
-/// @see <a href="https://www.testcontainers.org/">Testcontainers Documentation</a>
-/// @see <a href="https://hub.docker.com/r/pgvector/pgvector">pgvector Docker image</a>
-///
 ///
 /// This test configuration is **REQUIRED** to deal with the issue of Flyway migrations involving the `vector` extension.
 ///
 /// ```
-/// Message    : ERROR: extension "vector" is not available
-///          - @ConditionalOnClass did not find required class 'com.rabbitmq.client.ConnectionFactory' (OnClassCondition)
+/// Message : ERROR: extension "vector" is not available
+///         - @ConditionalOnClass did not find required class 'com.rabbitmq.client.ConnectionFactory' (OnClassCondition)
 ///   Hint: The extension must first be installed on the system where PostgreSQL is running.
 /// ```
-/// ```
-/// **NOTE:** Annotate DataJpa Integration test with this: `@Import(TestcontainersDataJpaConfig.class)`
-/// to ensure the containerized PostgreSQL with pgvector is loaded properly.
-/// ```
+///
+/// > NOTE: Annotate DataJpa Integration test with this: `@Import(TestcontainersDataJpaConfig.class)`
+/// > to ensure the containerized PostgreSQL with pgvector is loaded properly.
+///
+/// @see <a href="https://www.testcontainers.org/">Testcontainers Documentation</a>
+/// @see <a href="https://hub.docker.com/r/pgvector/pgvector">pgvector Docker image</a><br/>
 ///
 /// @author Giri Pottepalem
 @Slf4j
@@ -66,25 +63,12 @@ public class TestcontainersDataJpaConfig {
         return new PostgreSQLContainer<>(image);
     }
 
+    /// Mock Ollama for DataJpa test. Don't need Ollama autoconfiguration.
+    /// > NOTE: @ServiceConnection doesn't work in light-weight DataJpa test.
+    /// > It's meant for full-blown @SpringBootTest integration test
     @Bean
-//    @ServiceConnection
-//    public OllamaApi ollamaApi() {
-//        return Mockito.mock(OllamaApi.class);
-//    }
-    public OllamaContainer ollamaContainer() {
-        return new OllamaContainer(DockerImageName.parse("ollama/ollama:latest"));
-    }
-
-    @Bean
-    public DynamicPropertyRegistrar dynamicPropertyRegistrar(OllamaContainer ollamaContainer) {
-        return registry -> {
-            registry.add("spring.ai.ollama.base-url", ollamaContainer::getEndpoint);
-        };
-    }
-
-    @Bean
-    public ResponseErrorHandler ollamaResponseErrorHandler() {
-        return new DefaultResponseErrorHandler();
+    public OllamaApi ollamaApi() {
+        return Mockito.mock(OllamaApi.class);
     }
 
     /// A {@link GenericContainer} instance for running a MinIO Docker container configured with:
@@ -116,22 +100,4 @@ public class TestcontainersDataJpaConfig {
         System.setProperty("minio.secure", "false");
         System.setProperty("minio.bucket-name", "test-ai-art");
     }
-
-    // Ollama container for integration tests
-//    @Bean(destroyMethod = "stop")
-//    public GenericContainer<?> ollamaContainer() {
-//        var container = new GenericContainer<>(DockerImageName.parse("ollama/ollama:latest"))
-//            .withExposedPorts(11434)
-//            .waitingFor(Wait.forListeningPort())
-//            .withCommand("serve"); // starts the Ollama server
-//        container.start();
-//        log.info("{} Started Ollama container on {}:{}", LogIcons.STARTUP,
-//            container.getHost(), container.getMappedPort(11434));
-//
-//        // Set system property for Spring AI to connect to Testcontainers Ollama
-//        System.setProperty("spring.ai.ollama.base-url",
-//            "http://" + container.getHost() + ":" + container.getMappedPort(11434));
-//
-//        return container;
-//    }
 }
