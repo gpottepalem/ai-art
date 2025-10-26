@@ -21,8 +21,8 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @AllArgsConstructor
-public class MediaController {
-    private final MediaService mediaService;
+public class MediaChatController {
+    private final MediaChatService mediaChatService;
 
     /**
      * /media-analyze
@@ -48,7 +48,7 @@ public class MediaController {
         log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
         log.info("{} Analyzing media: {} for {}...", LogIcons.ANALYSIS, mediaFileName, promptType);
 
-        return mediaService.analyzeMediaStreaming(mediaFileName, promptType);
+        return mediaChatService.analyzeMediaStreaming(mediaFileName, promptType);
     }
 
     /**
@@ -70,6 +70,6 @@ public class MediaController {
     ) throws IOException {
         log.info("{} {}", LogIcons.CONTROLLER, httpServletRequest.getRequestURL().toString());
         log.info("{} Extracting text: {}...", LogIcons.TEXT, mediaFileName);
-        return mediaService.extractText(mediaFileName);
+        return mediaChatService.extractText(mediaFileName);
     }
 }

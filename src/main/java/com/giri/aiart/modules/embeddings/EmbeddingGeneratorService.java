@@ -1,6 +1,6 @@
 package com.giri.aiart.modules.embeddings;
 
-import com.giri.aiart.media.MediaService;
+import com.giri.aiart.media.MediaChatService;
 import com.giri.aiart.shared.domain.ArtworkEmbedding;
 import com.giri.aiart.shared.domain.type.EmbeddingStatusType;
 import com.giri.aiart.shared.domain.type.EmbeddingType;
@@ -38,7 +38,7 @@ import java.io.IOException;
 /// @author
 ///     Giri Pottepalem
 /// @see com.giri.aiart.shared.domain.ArtworkEmbedding
-/// @see com.giri.aiart.media.MediaService
+/// @see MediaChatService
 /// @see org.springframework.ai.embedding.EmbeddingModel
 ///
 @Slf4j
@@ -47,7 +47,7 @@ import java.io.IOException;
 public class EmbeddingGeneratorService {
     private static final int DEFAULT_DIMENSION = 1536;
 
-    private final MediaService mediaService;
+    private final MediaChatService mediaChatService;
     private final EmbeddingModel embeddingModel;
 
     /// Generates an `ArtworkEmbedding` for a given image resource by:
@@ -62,7 +62,7 @@ public class EmbeddingGeneratorService {
         log.info("{} Generating random embedding for {}", LogIcons.TIMER, embeddingType);
 
         // Use a multimodal LLM to describe the artwork
-        String description = mediaService.describeImage(imageResource);
+        String description = mediaChatService.describeImage(imageResource);
         float[] vector = embeddingModel.embed(description); // TODO EmbeddingOptions for dimension 1536
 
         return ArtworkEmbedding.builder()

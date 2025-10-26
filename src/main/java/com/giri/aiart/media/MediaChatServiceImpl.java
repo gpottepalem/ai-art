@@ -23,7 +23,7 @@ import reactor.core.publisher.Flux;
 import java.io.IOException;
 import java.util.List;
 
-/// A concrete implementation of {@link MediaService}
+/// A concrete implementation of {@link MediaChatService}
 ///
 /// @See {@link com.giri.aiart.config.ChatClientConfiguration} for {@link ChatClient}
 ///
@@ -36,7 +36,7 @@ import java.util.List;
     maxAttempts = 3,
     backoff = @Backoff(delay = 2000,  multiplier = 2)
 )
-public class MediaServiceImpl implements MediaService {
+public class MediaChatServiceImpl implements MediaChatService {
     private final ChatClientWithMeta chatClientWithMeta;
     private final ChatClientWithMeta secondaryChatClient;
     private final ChatClientWithMeta tertiaryChatClient;

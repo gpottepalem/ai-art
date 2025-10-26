@@ -29,7 +29,7 @@ import java.io.IOException;
 ///
 /// @see com.giri.aiart.prompt.PromptType
 ///
-public interface MediaService {
+public interface MediaChatService {
     /// Analyzes a media file (located on the classpath) using the specified prompt type
     /// and returns a **streaming response** from the AI model.
     ///
