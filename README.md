@@ -3,6 +3,8 @@ Let's explore what [Spring AI](https://github.com/spring-projects/spring-ai) can
 artist's tech world.  
 This is a deep dive into Spring AI for an artist's toolkit.
 
+![AI Art](./docs/ai-art.jpg)
+
 ## 🏗️ Architecture Summary
 
 AI-Art is built on a modular Spring Boot foundation that integrates **Spring AI**, **Ollama**, **MinIO**, and **PostgreSQL (pgvector)**. 
