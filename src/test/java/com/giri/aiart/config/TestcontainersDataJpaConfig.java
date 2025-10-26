@@ -7,6 +7,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.DynamicPropertyRegistrar;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.ollama.OllamaContainer;
@@ -34,7 +37,7 @@ import org.testcontainers.utility.DockerImageName;
 ///   Hint: The extension must first be installed on the system where PostgreSQL is running.
 /// ```
 /// ```
-/// **NOTE:** Annotate Integration test with: `@Import(TestcontainersConfig.class)`
+/// **NOTE:** Annotate DataJpa Integration test with this: `@Import(TestcontainersDataJpaConfig.class)`
 /// to ensure the containerized PostgreSQL with pgvector is loaded properly.
 /// ```
 ///
@@ -43,7 +46,7 @@ import org.testcontainers.utility.DockerImageName;
 @TestConfiguration(proxyBeanMethods = false)
 @EnableConfigurationProperties(MinioProperties.class)
 @AllArgsConstructor
-public class TestcontainersConfig {
+public class TestcontainersDataJpaConfig {
     private final MinioProperties minioProperties;
 
     /// Creates and configures a PostgreSQL container with the pgvector extension for integration testing.
@@ -64,25 +67,25 @@ public class TestcontainersConfig {
     }
 
     @Bean
-    @ServiceConnection
+//    @ServiceConnection
 //    public OllamaApi ollamaApi() {
 //        return Mockito.mock(OllamaApi.class);
 //    }
     public OllamaContainer ollamaContainer() {
         return new OllamaContainer(DockerImageName.parse("ollama/ollama:latest"));
     }
-//
-//    @Bean
-//    public DynamicPropertyRegistrar dynamicPropertyRegistrar(OllamaContainer ollamaContainer) {
-//        return registry -> {
-//            registry.add("spring.ai.ollama.base-url", ollamaContainer::getEndpoint);
-//        };
-//    }
 
-//    @Bean
-//    public ResponseErrorHandler ollamaResponseErrorHandler() {
-//        return new DefaultResponseErrorHandler();
-//    }
+    @Bean
+    public DynamicPropertyRegistrar dynamicPropertyRegistrar(OllamaContainer ollamaContainer) {
+        return registry -> {
+            registry.add("spring.ai.ollama.base-url", ollamaContainer::getEndpoint);
+        };
+    }
+
+    @Bean
+    public ResponseErrorHandler ollamaResponseErrorHandler() {
+        return new DefaultResponseErrorHandler();
+    }
 
     /// A {@link GenericContainer} instance for running a MinIO Docker container configured with:
     /// - The latest docker image
@@ -113,4 +116,22 @@ public class TestcontainersConfig {
         System.setProperty("minio.secure", "false");
         System.setProperty("minio.bucket-name", "test-ai-art");
     }
+
+    // Ollama container for integration tests
+//    @Bean(destroyMethod = "stop")
+//    public GenericContainer<?> ollamaContainer() {
+//        var container = new GenericContainer<>(DockerImageName.parse("ollama/ollama:latest"))
+//            .withExposedPorts(11434)
+//            .waitingFor(Wait.forListeningPort())
+//            .withCommand("serve"); // starts the Ollama server
+//        container.start();
+//        log.info("{} Started Ollama container on {}:{}", LogIcons.STARTUP,
+//            container.getHost(), container.getMappedPort(11434));
+//
+//        // Set system property for Spring AI to connect to Testcontainers Ollama
+//        System.setProperty("spring.ai.ollama.base-url",
+//            "http://" + container.getHost() + ":" + container.getMappedPort(11434));
+//
+//        return container;
+//    }
 }
