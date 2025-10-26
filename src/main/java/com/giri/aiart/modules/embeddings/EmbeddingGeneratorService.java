@@ -1,6 +1,6 @@
 package com.giri.aiart.modules.embeddings;
 
-import com.giri.aiart.media.MediaChatService;
+import com.giri.aiart.modules.chat.media.MediaChatService;
 import com.giri.aiart.shared.domain.ArtworkEmbedding;
 import com.giri.aiart.shared.domain.type.EmbeddingStatusType;
 import com.giri.aiart.shared.domain.type.EmbeddingType;

@@ -59,7 +59,7 @@ brew install graphviz
  * When you open any [.puml](./target/spring-modulith-docs/components.puml) file generated in IntelliJ, the plugin shows
    it as PlantUML diagram.
 
-![Main Mdolues](./ai-art-modules.png)
+![Main Mdolues](docs/ai-art-modules.png)
 
 ### 🌐 [API Docs](https://smart-doc-group.github.io/)
 * API documentation is generated using [smart-doc](https://smart-doc-group.github.io/) generated under `src/main/resources/static/doc`  

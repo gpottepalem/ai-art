@@ -1,6 +1,8 @@
 package com.giri.aiart.chat;
 
 import com.giri.aiart.BaseIntegrationTest;
+import com.giri.aiart.modules.chat.ArtMasterController;
+import com.giri.aiart.modules.chat.ArtMasterService;
 import com.giri.aiart.shared.domain.type.ArtMedia;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.client.ChatClientResponse;

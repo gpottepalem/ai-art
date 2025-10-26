@@ -1,6 +1,6 @@
 package com.giri.aiart;
 
-import com.giri.aiart.chat.ArtMasterService;
+import com.giri.aiart.modules.chat.ArtMasterService;
 import com.giri.aiart.config.TestcontainersConfig;
 import com.giri.aiart.modules.artist.ArtistService;
 import com.giri.aiart.shared.domain.type.ArtMedia;

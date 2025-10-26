@@ -1,4 +1,4 @@
-package com.giri.aiart.chat;
+package com.giri.aiart.modules.chat;
 
 import com.giri.aiart.shared.domain.Painting;
 import com.giri.aiart.shared.domain.type.ArtMedia;

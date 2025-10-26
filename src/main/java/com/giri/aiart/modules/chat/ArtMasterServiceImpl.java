@@ -1,4 +1,4 @@
-package com.giri.aiart.chat;
+package com.giri.aiart.modules.chat;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.giri.aiart.media;
+package com.giri.aiart.modules.chat.media;
 
 import com.giri.aiart.prompt.PromptFactory;
 import com.giri.aiart.prompt.PromptType;
