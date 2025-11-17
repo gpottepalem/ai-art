@@ -21,7 +21,7 @@ spring:
           # model: llava:latest
           # model: gemma3
           # model: llama3.2:11b
-          model: qwen2.5vl # default, primary
+          model: qwen3-vl # default, primary
           temperature: 0.2
           # num-thread: 4
           # keep-alive: 5m
