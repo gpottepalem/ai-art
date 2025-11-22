@@ -29,7 +29,7 @@ spring:
           tertiary-model: bakllava:latest
 
       init:
-        pull-model-strategy: always
+        pull-model-strategy: when_missing
         timeout: 60s
         max-retries: 1
       # default model examples
